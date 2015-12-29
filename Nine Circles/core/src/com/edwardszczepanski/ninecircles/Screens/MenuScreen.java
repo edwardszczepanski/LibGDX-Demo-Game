@@ -6,22 +6,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.edwardszczepanski.ninecircles.NineCircles;
 
 
 public class MenuScreen implements Screen{
-    private Game game;
-    private SpriteBatch batch;
+    private NineCircles game;
 
 
-    public MenuScreen(Game game, SpriteBatch batch){
+    public MenuScreen(NineCircles game){
         this.game = game;
-        this.batch = batch;
 
     }
 
     public void handleInput(float delta){
         if (Gdx.input.isTouched()){
-            game.setScreen(new PlayScreen(game, batch));
+            //game.setScreen(new PlayScreen(game, batch));
+            game.setScreen(new PlayScreen(game));
+
         }
     }
 

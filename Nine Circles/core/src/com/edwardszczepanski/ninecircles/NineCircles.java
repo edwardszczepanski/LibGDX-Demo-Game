@@ -12,14 +12,16 @@ import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 public class NineCircles extends Game {
     public static final int V_WIDTH = 400;
     public static final int V_HEIGHT = 208;
-	private SpriteBatch batch;
-	Game game;
+	public static final float PPM = 100;
+
+	public SpriteBatch batch;
+	NineCircles game;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		game = this;
-		setScreen(new MenuScreen(game, batch));
+		setScreen(new MenuScreen(game));
 	}
 
 	@Override

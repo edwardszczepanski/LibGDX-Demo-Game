@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="4">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="13">
  <tileset firstgid="1" source="desert.tsx"/>
  <layer name="Ground" width="40" height="40">
   <data encoding="base64" compression="zlib">
@@ -8,9 +8,12 @@
  </layer>
  <objectgroup name="Boxes">
   <object id="1" x="113" y="497" width="285" height="62"/>
-  <object id="2" x="434" y="500">
-   <polygon points="0,0 -1,59 414,59 414,-354 352,-354 351,-5 0,-3 2,2"/>
-  </object>
   <object id="3" x="367" y="175" width="389" height="292"/>
+  <object id="6" x="433" y="498" width="414" height="60"/>
+  <object id="7" x="785" y="147" width="62" height="350"/>
+  <object id="8" x="-6.47668" y="-30.2245" width="1308.29" height="30.2245"/>
+  <object id="10" x="1282.38" y="-25.9067" width="56.1313" height="1360.1"/>
+  <object id="11" x="-88.5147" y="1280.22" width="1463.73" height="60.4491"/>
+  <object id="12" x="-92.8325" y="-28.0656" width="94.9914" height="1377.37"/>
  </objectgroup>
 </map>
