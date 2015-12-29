@@ -1,0 +1,12 @@
+
+Spritesheet.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+BattleCruiser
+  rotate: false
+  xy: 1, 1
+  size: 78, 69
+  orig: 78, 69
+  offset: 0, 0
+  index: -1
