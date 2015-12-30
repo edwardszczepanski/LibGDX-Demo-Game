@@ -52,7 +52,9 @@ public class Enemy extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(35 / NineCircles.PPM);
 
+
         fdef.shape = shape;
+
         b2body.createFixture(fdef);
 
     }

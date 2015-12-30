@@ -92,14 +92,15 @@ public class PlayScreen implements Screen {
             player.b2body.applyForce(new Vector2(-4f, 0), player.b2body.getWorldCenter(), true);
         }
 
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        if(Gdx.input.justTouched()){
             player.heroBullet(world, this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.getRotation(), player.getHeight());
-
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new PlayScreen(game));
         }
+
     }
 
 
@@ -113,11 +114,19 @@ public class PlayScreen implements Screen {
         player.update(delta);
         enemy.update(delta);
 
+
         if (player.bulletList != null){
             for(int i = 0; i < player.bulletList.size(); ++i){
                 player.bulletList.get(i).update(delta);
+                if (System.nanoTime() - player.bulletList.get(i).creationTime > 2 * 1000000000.0f) {
+                    player.bulletList.get(i).deleteBody();
+                    player.bulletList.remove(i);
+                }
             }
+
         }
+
+        hud.update(delta);
 
         gamecam.position.x = player.b2body.getPosition().x;
         gamecam.position.y = player.b2body.getPosition().y;

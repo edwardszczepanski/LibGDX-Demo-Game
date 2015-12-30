@@ -16,23 +16,23 @@ public class Bullet extends Sprite{
     private World world;
     private Body b2body;
     private TextureRegion blueBullet;
-    private float angle;
     private float xPos;
     private float yPos;
     private float shooterRadius;
     public float radius = 6;
     public float localAngle;
-
+    public float creationTime;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
         this.world = world;
 
-
         this.xPos = xPos;
         this.yPos = yPos;
         this.shooterRadius = shooterRadius;
-        this.angle = angle;
+
+        // This is to have the bullet time out
+        creationTime = System.nanoTime();
 
         // This is to correct the angle for placement & physics calculations
         localAngle = angle;
@@ -44,7 +44,6 @@ public class Bullet extends Sprite{
         else{
             localAngle = localAngle * -1;
         }
-
 
         defineBullet();
         blueBullet = new TextureRegion(getTexture(), 1, 1, 11, 25);
@@ -60,7 +59,14 @@ public class Bullet extends Sprite{
 
     // This method is to connect the Box2D object with the sprite
     public void update(float delta){
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getWidth() / 2);
+        setPosition(b2body.getPosition().x - getWidth() / 2 - 12*(float)(Math.sin(Math.toRadians(localAngle)))/NineCircles.PPM, b2body.getPosition().y - getWidth() / 2 - 12*(float)(Math.cos(Math.toRadians(localAngle)))/NineCircles.PPM);
+    }
+
+    public void deleteBody(){
+        world.destroyBody(b2body);
+        b2body.setUserData(null);
+        b2body = null;
+
     }
 
 
