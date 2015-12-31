@@ -66,6 +66,8 @@ public class PlayScreen implements Screen {
         player = new Hero(world, this);
         enemy = new Enemy(world, this);
 
+        world.setContactListener(new WorldContactListener());
+
     }
 
     public TextureAtlas getAtlas(){
@@ -94,7 +96,7 @@ public class PlayScreen implements Screen {
 
         //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
         if(Gdx.input.justTouched()){
-            player.heroBullet(world, this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.getRotation(), player.getHeight());
+            player.heroBullet(world, this, player.b2body.getPosition().x, player.b2body.getPosition().y, player.getRotation(), player.radius/NineCircles.PPM);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
@@ -118,7 +120,7 @@ public class PlayScreen implements Screen {
         if (player.bulletList != null){
             for(int i = 0; i < player.bulletList.size(); ++i){
                 player.bulletList.get(i).update(delta);
-                if (System.nanoTime() - player.bulletList.get(i).creationTime > 2 * 1000000000.0f) {
+                if (System.nanoTime() - player.bulletList.get(i).creationTime > 2 * 1000000000.0f || player.bulletList.get(i).destroy) {
                     player.bulletList.get(i).deleteBody();
                     player.bulletList.remove(i);
                 }

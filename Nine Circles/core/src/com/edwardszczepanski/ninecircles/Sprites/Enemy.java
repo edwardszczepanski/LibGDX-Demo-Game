@@ -56,6 +56,7 @@ public class Enemy extends Sprite{
         fdef.shape = shape;
 
         b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("enemy");
 
     }
 }
