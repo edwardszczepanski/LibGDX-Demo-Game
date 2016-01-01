@@ -1,6 +1,7 @@
 package com.edwardszczepanski.ninecircles.Sprites;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -18,13 +19,15 @@ public class Enemy extends Sprite{
     private int health;
     private boolean destroyed;
 
+    private float xDif, yDif;
+
     public Enemy(World world, PlayScreen screen, float startX, float startY){
         super(screen.getAtlas().findRegion("BattleCruiser"));
         this.world = world;
         defineEnemy(startX, startY);
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
 
-        health = 50;
+        health = 30;
         destroyed = false;
 
         // Setting bounds of sprite
@@ -35,8 +38,13 @@ public class Enemy extends Sprite{
     }
 
     // This method is to connect the Box2D object with the sprite
-    public void update(float delta){
+    public void update(float delta, float heroX, float heroY) {
         setPosition(enemyBody.getPosition().x - getWidth() / 2, enemyBody.getPosition().y - getWidth() / 2);
+
+        xDif = enemyBody.getPosition().x - heroX;
+        yDif = enemyBody.getPosition().y -heroY;
+
+        setRotation((float) Math.toDegrees((Math.atan2(xDif * 1, yDif * -1))));
     }
 
     public void rotateSprite(float degrees){

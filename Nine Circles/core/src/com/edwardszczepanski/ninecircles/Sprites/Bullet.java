@@ -62,7 +62,6 @@ public class Bullet extends Sprite{
     // This method is to connect the Box2D object with the sprite
     public void update(float delta){
         setPosition(b2body.getPosition().x - getWidth() / 2 - 12*(float)(Math.sin(Math.toRadians(localAngle)))/NineCircles.PPM, b2body.getPosition().y - getWidth() / 2 - 12*(float)(Math.cos(Math.toRadians(localAngle)))/NineCircles.PPM);
-
     }
 
     public void deleteBody(){
@@ -80,7 +79,7 @@ public class Bullet extends Sprite{
         b2body = world.createBody(bdef);
 
         // This is the same math as before. It simply takes the corrected angle and uses it to scale and x and y vectors
-        b2body.applyLinearImpulse(10*(float)(Math.sin(Math.toRadians(localAngle))),10*(float)(Math.cos(Math.toRadians(localAngle))),0,0,true);
+        b2body.applyLinearImpulse(15*(float)(Math.sin(Math.toRadians(localAngle))),15*(float)(Math.cos(Math.toRadians(localAngle))),0,0,true);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();

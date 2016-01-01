@@ -2,10 +2,9 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -16,16 +15,15 @@ import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 
 import java.util.ArrayList;
 
+
 public class Hero extends Sprite{
-    public World world;
+    private World world;
     public Body b2body;
     public TextureRegion battleCruiser;
     public float radius = 35;
-    public float currentAngle;
     public ArrayList<Bullet> bulletList;
     private float xDif;
     private float yDif;
-
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlas().findRegion("BattleCruiser"));
@@ -33,9 +31,13 @@ public class Hero extends Sprite{
         defineHero();
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
         // This is to know where the ship is shooting for the bullet sprite orientation and physics
-        currentAngle = 0;
 
         bulletList = new ArrayList<Bullet>();
+
+
+
+
+
 
         // Setting bounds of sprite
         setBounds(0, 0, 78 / NineCircles.PPM, 69 / NineCircles.PPM);
@@ -52,6 +54,7 @@ public class Hero extends Sprite{
         xDif = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 ;
         yDif = Gdx.input.getY() - Gdx.graphics.getHeight() / 2;
         setRotation((float) Math.toDegrees((Math.atan2(xDif * -1, yDif * -1))));
+
 
     }
 

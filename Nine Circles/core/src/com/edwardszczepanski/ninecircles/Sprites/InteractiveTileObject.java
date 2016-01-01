@@ -44,6 +44,7 @@ public abstract class InteractiveTileObject {
         fdef.shape = shape;
 
         fixture = body.createFixture(fdef); // We have the ground taken care of
+        body.createFixture(fdef).setUserData(this);
 
 
     }
