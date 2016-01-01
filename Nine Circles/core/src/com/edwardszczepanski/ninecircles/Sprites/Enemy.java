@@ -1,8 +1,6 @@
 package com.edwardszczepanski.ninecircles.Sprites;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,38 +13,41 @@ import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 
 public class Enemy extends Sprite{
     public World world;
-    public Body b2body;
+    public Body enemyBody;
     public TextureRegion battleCruiser;
+    public int health;
+    public boolean destroyed;
 
-    public Enemy(World world, PlayScreen screen){
+    public Enemy(World world, PlayScreen screen, float startX, float startY){
         super(screen.getAtlas().findRegion("BattleCruiser"));
         this.world = world;
-        defineEnemy();
+        defineEnemy(startX, startY);
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
 
+        health = 50;
+        destroyed = false;
 
         // Setting bounds of sprite
         setBounds(0, 0, 78 / NineCircles.PPM, 69 / NineCircles.PPM);
         setRegion(battleCruiser);
         // This is so it will rotate around the center of the sprite
-        setOrigin(getWidth() / 2,getWidth() / 2);
+        setOrigin(getWidth() / 2, getWidth() / 2);
     }
 
     // This method is to connect the Box2D object with the sprite
     public void update(float delta){
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getWidth() / 2);
-
+        setPosition(enemyBody.getPosition().x - getWidth() / 2, enemyBody.getPosition().y - getWidth() / 2);
     }
 
     public void rotateSprite(float degrees){
         rotate(degrees);
     }
 
-    public void defineEnemy(){
+    public void defineEnemy(float startX, float startY){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(50 / NineCircles.PPM, 50 / NineCircles.PPM);
+        bdef.position.set(startX, startY);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
+        enemyBody = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
@@ -55,8 +56,14 @@ public class Enemy extends Sprite{
 
         fdef.shape = shape;
 
-        b2body.createFixture(fdef);
-        b2body.createFixture(fdef).setUserData("enemy");
+        enemyBody.createFixture(fdef);
+        enemyBody.createFixture(fdef).setUserData(this);
 
+    }
+
+    public void deleteBody(){
+        world.destroyBody(enemyBody);
+        enemyBody.setUserData(null);
+        enemyBody = null;
     }
 }

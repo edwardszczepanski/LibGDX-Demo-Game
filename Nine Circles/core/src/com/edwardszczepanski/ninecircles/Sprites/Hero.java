@@ -76,7 +76,7 @@ public class Hero extends Sprite{
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
-        b2body.createFixture(fdef).setUserData("hero");
+        b2body.createFixture(fdef).setUserData(this);
 
     }
 }

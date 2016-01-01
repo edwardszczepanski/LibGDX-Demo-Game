@@ -21,7 +21,7 @@ public class Bullet extends Sprite{
     public float radius = 6;
     public float localAngle;
     public float creationTime;
-    public boolean destroy;
+    public boolean destroyed;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -34,7 +34,7 @@ public class Bullet extends Sprite{
         // This is to have the bullet time out
         creationTime = System.nanoTime();
 
-        destroy = false;
+        destroyed = false;
 
         // This is to correct the angle for placement & physics calculations
         localAngle = angle;
