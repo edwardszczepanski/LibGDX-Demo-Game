@@ -19,14 +19,17 @@ public class WorldContactListener implements ContactListener{
         if(fixA.getUserData() instanceof Bullet){
             ((Bullet) fixA.getUserData()).destroyed = true;
             if(fixB.getUserData() instanceof Enemy){
-                ((Enemy) fixB.getUserData()).health += -10;
-                System.out.println(((Enemy) fixB.getUserData()).health);
+                int localHealth = ((Enemy) fixB.getUserData()).getHealth();
+                ((Enemy) fixB.getUserData()).setHealth(localHealth - 10);
+                System.out.println(((Enemy) fixB.getUserData()).getHealth());
             }
         }
         if(fixB.getUserData() instanceof Bullet){
             ((Bullet) fixB.getUserData()).destroyed = true;
             if(fixA.getUserData() instanceof Enemy){
-                ((Enemy) fixA.getUserData()).health += -10;
+                int localHealth = ((Enemy) fixA.getUserData()).getHealth();
+                ((Enemy) fixA.getUserData()).setHealth(localHealth - 10);
+                System.out.println(((Enemy) fixA.getUserData()).getHealth());
             }
         }
 

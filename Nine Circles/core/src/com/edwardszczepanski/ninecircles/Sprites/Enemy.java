@@ -15,8 +15,8 @@ public class Enemy extends Sprite{
     public World world;
     public Body enemyBody;
     public TextureRegion battleCruiser;
-    public int health;
-    public boolean destroyed;
+    private int health;
+    private boolean destroyed;
 
     public Enemy(World world, PlayScreen screen, float startX, float startY){
         super(screen.getAtlas().findRegion("BattleCruiser"));
@@ -41,6 +41,20 @@ public class Enemy extends Sprite{
 
     public void rotateSprite(float degrees){
         rotate(degrees);
+    }
+
+    public int getHealth(){
+        return health;
+    }
+    public void setHealth(int inputHealth){
+        health = inputHealth;
+    }
+
+    public void setDestroyed(boolean input){
+         destroyed = input;
+    }
+    public boolean isDestroyed(){
+        return destroyed;
     }
 
     public void defineEnemy(float startX, float startY){

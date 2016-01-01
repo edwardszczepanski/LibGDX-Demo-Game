@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private Hero player;
-    private Enemy enemy;
-    //private ArrayList<Enemy> enemyList;
+    //private Enemy enemy;
+    private ArrayList<Enemy> enemyList;
 
     // Tiled map variables
     private TmxMapLoader maploader;
@@ -52,9 +52,6 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
         hud = new Hud(game.batch);
 
-
-        //enemyList = new ArrayList<Enemy>();
-
         maploader = new TmxMapLoader();
         map = maploader.load("desert.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / NineCircles.PPM); // This can take in a second value which is scale
@@ -67,9 +64,13 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, map);
 
         player = new Hero(world, this);
-        
-        //enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
-        enemy = new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM);
+
+        enemyList = new ArrayList<Enemy>();
+        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
+        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
+        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
+
+        //enemy = new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM);
 
         world.setContactListener(new WorldContactListener());
 
@@ -120,6 +121,23 @@ public class PlayScreen implements Screen {
         // This updates the player sprite
         player.update(delta);
 
+        if (!enemyList.isEmpty()) {
+            for (int i = 0; i < enemyList.size(); ++i){
+                if(!enemyList.get(i).isDestroyed()){
+                    if(enemyList.get(i).getHealth() <= 0){
+                        enemyList.get(i).deleteBody();
+                        enemyList.get(i).setDestroyed(true);
+                        hud.addScore(100);
+                        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
+                    }
+                    else{
+                        enemyList.get(i).update(delta);
+                    }
+                }
+            }
+        }
+
+        /*
         if(enemy.destroyed == false){
             if (enemy.health <= 0){
                 enemy.deleteBody();
@@ -131,7 +149,7 @@ public class PlayScreen implements Screen {
                 enemy.update(delta);
             }
         }
-
+        */
 
 
         if (player.bulletList != null){
@@ -171,9 +189,16 @@ public class PlayScreen implements Screen {
         game.batch.begin();
         player.draw(game.batch); // Here is the actual Battle Cruiser being drawn
 
-        if (enemy.destroyed == false){
-            enemy.draw(game.batch);
+        if(!enemyList.isEmpty()){
+            for(int i = 0; i < enemyList.size(); ++i){
+                if (!enemyList.get(i).isDestroyed()){
+                    enemyList.get(i).draw(game.batch);
+                }
+            }
         }
+        //if (enemy.destroyed == false){
+        //    enemy.draw(game.batch);
+        //}
 
         if (player.bulletList != null){
             for(int i = 0; i < player.bulletList.size(); ++i){
