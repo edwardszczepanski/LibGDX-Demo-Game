@@ -8,6 +8,12 @@ public class NineCircles extends Game {
     public static final int V_WIDTH = 640;
     public static final int V_HEIGHT = 480;
 	public static final float PPM = 50;
+	public static final short DEFAULT_BIT = 1;
+	public static final short HERO_BIT = 2;
+	public static final short ENEMY_BIT = 4;
+	public static final short BRICK_BIT = 8;
+	public static final short BULLET_BIT = 16;
+	public static final short DESTROYED_BIT = 32;
 
 	public SpriteBatch batch;
 	private NineCircles game;

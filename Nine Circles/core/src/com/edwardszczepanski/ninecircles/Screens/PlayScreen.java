@@ -41,9 +41,7 @@ public class PlayScreen implements Screen {
     private TextureAtlas atlas;
 
     // Lighting
-    private RayHandler rayHandler;
-    private ConeLight heroCone;
-    private PointLight pointLight;
+    public static RayHandler rayHandler;
 
     // Sprites
     private Hero hero;
@@ -75,9 +73,6 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world, map);
 
-        hero = new Hero(world, this);
-
-
         enemyList = new ArrayList<Enemy>();
         enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
         enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
@@ -90,25 +85,10 @@ public class PlayScreen implements Screen {
         //Lighting methods
         rayHandler = new RayHandler(world);
         RayHandler.useDiffuseLight(true);
-        //rayHandler.setAmbientLight(.2f);
+        // R,G,B, alfa?
+        rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f, 0.2f);
         rayHandler.setShadows(true);
-        //rayHandler.setLightShader();
-
-        //initializeHeroCone();
-        intialiizePointLight();
-    }
-
-    private void intialiizePointLight(){
-        //PointLight(RayHandler rayHandler, int rays, Color color, float distance, float x, float y)
-        pointLight = new PointLight(rayHandler, 200, Color.WHITE, 300/ NineCircles.PPM,10/NineCircles.PPM, 10/NineCircles.PPM);
-        pointLight.setSoftnessLength(0f);
-        pointLight.setActive(true);
-        pointLight.attachToBody(hero.b2body);
-    }
-    private void initializeHeroCone(){
-        //ConeLight(RayHandler rayHandler, int rays, Color color,float distance, float x, float y, float directionDegree, float coneDegree) {
-        heroCone = new ConeLight(rayHandler,200, Color.WHITE, 50/NineCircles.PPM, 100/NineCircles.PPM,100/NineCircles.PPM, 30, 50);
-        heroCone.setSoftnessLength(0f);
+        hero = new Hero(world, this);
     }
 
     @Override
@@ -148,7 +128,7 @@ public class PlayScreen implements Screen {
         // Here is the lighting system. Anything before it will be affected by the lighting
         rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(1),
                 gamecam.position.x, gamecam.position.y,
-                gamecam.viewportWidth* gamecam.zoom,
+                gamecam.viewportWidth * gamecam.zoom,
                 gamecam.viewportHeight * gamecam.zoom);
 
         rayHandler.render();
@@ -168,8 +148,8 @@ public class PlayScreen implements Screen {
 
         // This updates the hero sprite
         hero.update(delta);
-        //pointLight.setPosition(hero.b2body.getPosition().x/NineCircles.PPM,hero.b2body.getPosition().y/NineCircles.PPM);
-
+        hero.updateConeLight();
+        //heroCone.setDirection(-180);
 
         if (!enemyList.isEmpty()) {
             for (int i = 0; i < enemyList.size(); ++i){
@@ -191,6 +171,7 @@ public class PlayScreen implements Screen {
             for(int i = 0; i < hero.bulletList.size(); ++i){
                 hero.bulletList.get(i).update(delta);
                 if (System.nanoTime() - hero.bulletList.get(i).creationTime > 2 * 1000000000.0f || hero.bulletList.get(i).destroyed) {
+                    hero.bulletList.get(i).pointLight.remove(true);
                     hero.bulletList.get(i).deleteBody();
                     hero.bulletList.remove(i);
                 }
@@ -205,28 +186,11 @@ public class PlayScreen implements Screen {
         gamecam.update(); // Always update our game came every iteration of our render cycle
         renderer.setView(gamecam);
 
-        // Will have to optimize this
-
-
-        //rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(NineCircles.PPM));
-
-
-
-
         rayHandler.update();
-        //rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(NineCircles.PPM));
-
-
-
     }
 
     public TextureAtlas getAtlas(){
         return atlas;
-    }
-
-    @Override
-    public void show() {
-
     }
 
     public void handleInput(float delta){
@@ -244,24 +208,32 @@ public class PlayScreen implements Screen {
             hero.b2body.applyForce(new Vector2(-4f, 0), hero.b2body.getWorldCenter(), true);
         }
 
-        //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-        if(Gdx.input.justTouched()){
-            hero.heroBullet(world, this, hero.b2body.getPosition().x, hero.b2body.getPosition().y, hero.getRotation(), hero.radius/NineCircles.PPM);
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        //if(Gdx.input.justTouched()){
+            hero.heroBullet(world, this, hero.b2body.getPosition().x, hero.b2body.getPosition().y, hero.getRotation(), hero.radius / NineCircles.PPM);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new PlayScreen(game));
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            pointLight.setPosition(6/NineCircles.PPM, 6/NineCircles.PPM);
-        }
+
     }
-
-
 
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        hud.dispose();
+        map.dispose();
+        renderer.dispose();
+        b2dr.dispose();
+        world.dispose();
+        rayHandler.dispose();
+        hero.heroCone.dispose();
+        hero.pointLight.dispose();
     }
 
     @Override
@@ -280,14 +252,7 @@ public class PlayScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
-        hud.dispose();
-        map.dispose();
-        renderer.dispose();
-        b2dr.dispose();
-        world.dispose();
-        rayHandler.dispose();
-        heroCone.dispose();
-        pointLight.dispose();
+    public void show() {
+
     }
 }

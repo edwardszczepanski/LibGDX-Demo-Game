@@ -15,6 +15,9 @@ import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 
 import java.util.ArrayList;
 
+import box2dLight.ConeLight;
+import box2dLight.PointLight;
+
 
 public class Hero extends Sprite{
     private World world;
@@ -24,6 +27,8 @@ public class Hero extends Sprite{
     public ArrayList<Bullet> bulletList;
     private float xDif;
     private float yDif;
+    public ConeLight heroCone;
+    public PointLight pointLight;
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlas().findRegion("BattleCruiser"));
@@ -34,16 +39,25 @@ public class Hero extends Sprite{
 
         bulletList = new ArrayList<Bullet>();
 
-
-
-
-
-
         // Setting bounds of sprite
         setBounds(0, 0, 78 / NineCircles.PPM, 69 / NineCircles.PPM);
         setRegion(battleCruiser);
         // This is so it will rotate around the center of the sprite
         setOrigin(getWidth() / 2,getWidth() / 2);
+        defineLights();
+    }
+    public void defineLights(){
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.WHITE, 100/ NineCircles.PPM,0,0);
+        pointLight.setSoftnessLength(0f);
+        pointLight.attachToBody(b2body);
+        heroCone = new ConeLight(PlayScreen.rayHandler,150, Color.WHITE, 500/NineCircles.PPM, 300/50,300/50, -50, 25);
+        heroCone.setSoftnessLength(0f);
+        //one.setContactFilter(short categoryBits, short groupIndex, short maskBits);
+        heroCone.setContactFilter(NineCircles.DEFAULT_BIT, NineCircles.BULLET_BIT,NineCircles.DEFAULT_BIT);
+    }
+    public void updateConeLight(){
+        heroCone.setDirection(getRotation() + 90);
+        heroCone.setPosition(b2body.getPosition().x, b2body.getPosition().y);
     }
 
     // This method is to connect the Box2D object with the sprite
@@ -72,14 +86,13 @@ public class Hero extends Sprite{
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
-
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / NineCircles.PPM);
+        fdef.filter.categoryBits = NineCircles.HERO_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
         b2body.createFixture(fdef).setUserData(this);
-
     }
 }

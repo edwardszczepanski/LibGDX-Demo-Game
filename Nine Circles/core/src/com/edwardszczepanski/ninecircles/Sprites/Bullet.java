@@ -1,6 +1,7 @@
 package com.edwardszczepanski.ninecircles.Sprites;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
+
+import box2dLight.PointLight;
 
 public class Bullet extends Sprite{
     private World world;
@@ -22,6 +25,7 @@ public class Bullet extends Sprite{
     public float localAngle;
     public float creationTime;
     public boolean destroyed;
+    public PointLight pointLight;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -68,9 +72,7 @@ public class Bullet extends Sprite{
         world.destroyBody(b2body);
         b2body.setUserData(null);
         b2body = null;
-
     }
-
 
     public void defineBullet(){
         BodyDef bdef = new BodyDef();
@@ -78,17 +80,27 @@ public class Bullet extends Sprite{
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
+
         // This is the same math as before. It simply takes the corrected angle and uses it to scale and x and y vectors
         b2body.applyLinearImpulse(15*(float)(Math.sin(Math.toRadians(localAngle))),15*(float)(Math.cos(Math.toRadians(localAngle))),0,0,true);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / NineCircles.PPM);
-
+        fdef.filter.categoryBits = NineCircles.BULLET_BIT;
+        fdef.filter.maskBits = NineCircles.DEFAULT_BIT | NineCircles.BRICK_BIT | NineCircles.ENEMY_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef);
 
         b2body.createFixture(fdef).setUserData(this);
+
+
+
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.BLUE, 30/ NineCircles.PPM,0,0);
+        pointLight.setSoftnessLength(0f);
+        pointLight.setActive(true);
+        pointLight.attachToBody(b2body);
+
 
     }
 }
