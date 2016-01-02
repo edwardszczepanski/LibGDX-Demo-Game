@@ -21,7 +21,7 @@
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="17" x="-119.895" y="-91.9845" width="118.695" height="2332.83"/>
-  <object id="22" x="-7.86473" y="-93.5788" width="2359.17" height="89.7189"/>
+  <object id="22" x="-19.8791" y="-89.574" width="2359.17" height="89.7189"/>
   <object id="23" x="2240.89" y="-9.74589" width="106.877" height="2337.36"/>
   <object id="24" x="-125.465" y="2239.78" width="2369.89" height="92.9368"/>
  </objectgroup>
