@@ -13,7 +13,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Scenes.Hud;
@@ -63,9 +67,8 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();
-        map = maploader.load("desert.tmx");
+        map = maploader.load("desert2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / NineCircles.PPM); // This can take in a second value which is scale
-        gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() /2, 0);
 
         world = new World(new Vector2(0, 0), true); // Here are the gravity values. I don't want gravity
         b2dr = new Box2DDebugRenderer();
@@ -74,26 +77,37 @@ public class PlayScreen implements Screen {
 
         hero = new Hero(world, this);
 
-        // Lighting
-        rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(.2f);
-        //ConeLight(RayHandler rayHandler, int rays, Color color,float distance, float x, float y, float directionDegree, float coneDegree) {
-        heroCone = new ConeLight(rayHandler,80, Color.WHITE, 6/NineCircles.PPM, 2/NineCircles.PPM,2/NineCircles.PPM, 0, 30);
-        heroCone.setSoftnessLength(0f);
-        //PointLight(RayHandler rayHandler, int rays, Color color, float distance, float x, float y)
-        pointLight = new PointLight(rayHandler, 200, Color.WHITE, 6/ NineCircles.PPM,10/NineCircles.PPM, 10/NineCircles.PPM);
-
-        pointLight.setSoftnessLength(0f);
 
         enemyList = new ArrayList<Enemy>();
-        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
-        enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
+        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
+        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
         enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
         enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
         enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
 
         world.setContactListener(new WorldContactListener());
 
+        //Lighting methods
+        rayHandler = new RayHandler(world);
+        //RayHandler.useDiffuseLight(true);
+        rayHandler.setAmbientLight(.5f);
+        rayHandler.setShadows(true);
+        //rayHandler.setLightShader();
+
+        initializeHeroCone();
+        intialiizePointLight();
+    }
+
+    private void intialiizePointLight(){
+        //PointLight(RayHandler rayHandler, int rays, Color color, float distance, float x, float y)
+        pointLight = new PointLight(rayHandler, 200, Color.WHITE, 6/ NineCircles.PPM,10/NineCircles.PPM, 10/NineCircles.PPM);
+        pointLight.setSoftnessLength(0f);
+        pointLight.setActive(true);
+    }
+    private void initializeHeroCone(){
+        //ConeLight(RayHandler rayHandler, int rays, Color color,float distance, float x, float y, float directionDegree, float coneDegree) {
+        heroCone = new ConeLight(rayHandler,200, Color.WHITE, 6/NineCircles.PPM, 2/NineCircles.PPM,2/NineCircles.PPM, 0, 30);
+        heroCone.setSoftnessLength(0f);
     }
 
     @Override
@@ -134,6 +148,8 @@ public class PlayScreen implements Screen {
         rayHandler.render();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+
+
         hud.stage.draw();
     }
 
@@ -143,7 +159,6 @@ public class PlayScreen implements Screen {
 
         // This is how many times you want calculations done
         world.step(1 / 60f, 6, 2);
-        rayHandler.update();
 
         // This updates the hero sprite
         hero.update(delta);
@@ -185,7 +200,22 @@ public class PlayScreen implements Screen {
         renderer.setView(gamecam);
 
         // Will have to optimize this
-        rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(NineCircles.PPM));
+
+
+
+        rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(50),
+                gamecam.position.x/50, gamecam.position.y/50,
+                69,69);
+                //gamecam.viewportWidth* gamecam.zoom/ 2500,
+                //gamecam.viewportHeight * gamecam.zoom / 2500);
+
+        //rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(50),0, 656,3456,56);
+
+        rayHandler.update();
+        //rayHandler.setCombinedMatrix(gamecam.combined.cpy().scl(NineCircles.PPM));
+
+
+
     }
 
     public TextureAtlas getAtlas(){
