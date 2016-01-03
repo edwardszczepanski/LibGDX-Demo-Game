@@ -3,7 +3,6 @@ package com.edwardszczepanski.ninecircles.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,11 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Scenes.Hud;
@@ -27,8 +22,6 @@ import com.edwardszczepanski.ninecircles.Tools.*;
 
 import java.util.ArrayList;
 
-import box2dLight.ConeLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 
@@ -73,22 +66,18 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world, map);
 
+        rayHandler = rayHandlerGenerator();
+
+        hero = new Hero(world, this);
+
         enemyList = new ArrayList<Enemy>();
-        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
-        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
-        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
-        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
-        enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
+        for(int i = 0; i < 8; ++i){
+            enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
+
+        }
 
         world.setContactListener(new WorldContactListener());
 
-        //Lighting methods
-        rayHandler = new RayHandler(world);
-        RayHandler.useDiffuseLight(true);
-        // R,G,B, alfa?
-        rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f, 0.2f);
-        rayHandler.setShadows(true);
-        hero = new Hero(world, this);
     }
 
     @Override
@@ -115,9 +104,9 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if (hero.bulletList != null){
-            for(int i = 0; i < hero.bulletList.size(); ++i){
-                hero.bulletList.get(i).draw(game.batch);
+        if (hero.getBulletList() != null){
+            for(int i = 0; i < hero.getBulletList().size(); ++i){
+                hero.getBulletList().get(i).draw(game.batch);
             }
         }
 
@@ -161,31 +150,31 @@ public class PlayScreen implements Screen {
                         enemyList.add(new Enemy(world, this, (float)(Math.random())*1250/NineCircles.PPM, (float)(Math.random())*1250/NineCircles.PPM));
                     }
                     else{
-                        enemyList.get(i).update(delta, hero.b2body.getPosition().x, hero.b2body.getPosition().y);
+                        enemyList.get(i).update(delta, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y);
                     }
                 }
             }
         }
 
-        if (hero.bulletList != null){
-            for(int i = 0; i < hero.bulletList.size(); ++i){
-                hero.bulletList.get(i).update(delta);
-                if (System.nanoTime() - hero.bulletList.get(i).creationTime > 2 * 1000000000.0f || hero.bulletList.get(i).destroyed) {
-                    hero.bulletList.get(i).pointLight.remove(true);
-                    hero.bulletList.get(i).deleteBody();
-                    hero.bulletList.remove(i);
+        if (hero.getBulletList() != null){
+            for(int i = 0; i < hero.getBulletList().size(); ++i){
+                hero.getBulletList().get(i).update(delta);
+                // This will automatically delete a bullet after 2 seconds or if it has just been destroyed
+                if (System.nanoTime() - hero.getBulletList().get(i).getCreationTime() > 1 * 1000000000.0f || hero.getBulletList().get(i).getDestroyed()) {
+                    hero.getBulletList().get(i).bulletLight().remove(true);
+                    hero.getBulletList().get(i).deleteBody();
+                    hero.getBulletList().remove(i);
                 }
             }
         }
 
         hud.update(delta);
 
-        gamecam.position.x = hero.b2body.getPosition().x;
-        gamecam.position.y = hero.b2body.getPosition().y;
+        gamecam.position.x = hero.getHeroBody().getPosition().x;
+        gamecam.position.y = hero.getHeroBody().getPosition().y;
 
-        gamecam.update(); // Always update our game came every iteration of our render cycle
+        gamecam.update();
         renderer.setView(gamecam);
-
         rayHandler.update();
     }
 
@@ -195,28 +184,36 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float delta){
         // You can apply a force or a linearImpulse
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.b2body.getLinearVelocity().y <= 5){
-            hero.b2body.applyForce(new Vector2(0, 4f), hero.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
+            hero.getHeroBody().applyForce(new Vector2(0, 4f), hero.getHeroBody().getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.b2body.getLinearVelocity().y >= -5){
-            hero.b2body.applyForce(new Vector2(0, -4f), hero.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
+            hero.getHeroBody().applyForce(new Vector2(0, -4f), hero.getHeroBody().getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.b2body.getLinearVelocity().x <= 5){
-            hero.b2body.applyForce(new Vector2(4f, 0), hero.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
+            hero.getHeroBody().applyForce(new Vector2(4f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.b2body.getLinearVelocity().x >= -5){
-            hero.b2body.applyForce(new Vector2(-4f, 0), hero.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
+            hero.getHeroBody().applyForce(new Vector2(-4f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
 
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
         //if(Gdx.input.justTouched()){
-            hero.heroBullet(world, this, hero.b2body.getPosition().x, hero.b2body.getPosition().y, hero.getRotation(), hero.radius / NineCircles.PPM);
+            hero.heroBullet(world, this, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y, hero.getRotation(), hero.getHeroRadius() / NineCircles.PPM);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new PlayScreen(game));
         }
 
+    }
+
+    public RayHandler rayHandlerGenerator(){
+        RayHandler localRay = new RayHandler(world);
+        RayHandler.useDiffuseLight(true);
+        localRay.setAmbientLight(0.1f, 0.1f, 0.1f, 0.2f);
+        localRay.setShadows(true);
+        return localRay;
     }
 
     @Override
@@ -232,9 +229,10 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         world.dispose();
         rayHandler.dispose();
-        hero.heroCone.dispose();
-        hero.pointLight.dispose();
+        hero.getHeroCone().dispose();
+        hero.getHeroPoint().dispose();
     }
+
 
     @Override
     public void pause() {
@@ -255,4 +253,5 @@ public class PlayScreen implements Screen {
     public void show() {
 
     }
+
 }

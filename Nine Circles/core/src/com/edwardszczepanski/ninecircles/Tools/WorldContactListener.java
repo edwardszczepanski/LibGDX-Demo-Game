@@ -20,7 +20,7 @@ public class WorldContactListener implements ContactListener{
         Fixture fixB = contact.getFixtureB();
 
         if(fixA.getUserData() instanceof Bullet){
-            ((Bullet) fixA.getUserData()).destroyed = true;
+            ((Bullet) fixA.getUserData()).setDestroyed(true);
 
             if(fixB.getUserData() instanceof Enemy){
                 int localHealth = ((Enemy) fixB.getUserData()).getHealth();
@@ -28,7 +28,7 @@ public class WorldContactListener implements ContactListener{
             }
         }
         if(fixB.getUserData() instanceof Bullet){
-            ((Bullet) fixB.getUserData()).destroyed = true;
+            ((Bullet) fixB.getUserData()).setDestroyed(true);
 
             if(fixA.getUserData() instanceof Enemy){
                 int localHealth = ((Enemy) fixA.getUserData()).getHealth();

@@ -21,11 +21,11 @@ public class Bullet extends Sprite{
     private float xPos;
     private float yPos;
     private float shooterRadius;
-    public float radius = 6;
-    public float localAngle;
-    public float creationTime;
-    public boolean destroyed;
-    public PointLight pointLight;
+    private float radius = 6;
+    private float localAngle;
+    private float creationTime;
+    private boolean destroyed;
+    private PointLight pointLight;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -90,17 +90,26 @@ public class Bullet extends Sprite{
         fdef.filter.categoryBits = NineCircles.BULLET_BIT;
         fdef.filter.maskBits = NineCircles.DEFAULT_BIT | NineCircles.BRICK_BIT | NineCircles.ENEMY_BIT;
         fdef.shape = shape;
+        fdef.density = .1f;
         b2body.createFixture(fdef);
 
         b2body.createFixture(fdef).setUserData(this);
-
-
 
         pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.BLUE, 30/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.setActive(true);
         pointLight.attachToBody(b2body);
-
-
+    }
+    public float getCreationTime(){
+        return creationTime;
+    }
+    public boolean getDestroyed(){
+        return destroyed;
+    }
+    public void setDestroyed(Boolean input){
+        destroyed = input;
+    }
+    public PointLight bulletLight(){
+        return pointLight;
     }
 }

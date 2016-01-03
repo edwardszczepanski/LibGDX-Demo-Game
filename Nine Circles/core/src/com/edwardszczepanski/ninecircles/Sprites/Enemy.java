@@ -2,6 +2,7 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,12 +13,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 
+import box2dLight.PointLight;
+
 public class Enemy extends Sprite{
-    public World world;
-    public Body enemyBody;
-    public TextureRegion battleCruiser;
+    private World world;
+    private Body enemyBody;
+    private TextureRegion battleCruiser;
     private int health;
     private boolean destroyed;
+    private PointLight pointLight;
 
     private float xDif, yDif;
 
@@ -26,7 +30,9 @@ public class Enemy extends Sprite{
         this.world = world;
         defineEnemy(startX, startY);
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
-
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, 50/ NineCircles.PPM,0,0);
+        pointLight.setSoftnessLength(0f);
+        pointLight.attachToBody(enemyBody);
         health = 30;
         destroyed = false;
 

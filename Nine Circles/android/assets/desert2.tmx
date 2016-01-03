@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="70" tilewidth="32" tileheight="32" nextobjectid="25">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="70" tilewidth="32" tileheight="32" nextobjectid="26">
  <tileset firstgid="1" source="desert.tsx"/>
  <layer name="Background" width="70" height="70">
   <data encoding="base64" compression="zlib">
@@ -8,7 +8,7 @@
  </layer>
  <layer name="Ground" width="70" height="70">
   <data encoding="base64" compression="zlib">
-   eJztmuluwjAQhLflRw+k0kOCntS9oGfK+z9dN4KIyHUc3xvH+0kjSLCJPYwdh2QJAMuIOkPNUOeO9amI6UkF/315tPwOKmL6wnlRq87GHLVAXTt+RypW0nbsvBygDlGT1j6bsURFbF9OUKeoqWN9KtgXNV3tedd8NkRf5PnBt2zIbKwU+8aWF11fY+elfUwqVO3agL8fY8qLPKeEmGNy9UXV93pfOy8+2cnVl/rYa6ktjQ8l56XdBtmfEMrVl6OdjmG/ZtdpYliu0QPk6csM9te7zW+r09SwnKpeTr4sYH+9e4G67NGVYTlVvVS+2Kx9u4g5t/hIwPa6mwq5PUPyR8Trdi+2PriuZW5Qtxa6A9r5JfZvXu1en1DPPXpFfaLeUC8wbl8amfhSe7HZlaXwpWq9T+HJL+ThS5tYXsjzFvviPo6+YTvn/oCfLyHO7ynGkKkvcnY4L91jiooh+1JCXj5guzYx1ReU4YurqKDutywhbYdkbVGW2oeQebHpdx+h2u9yPSmkbdX9fCr62k7xv4NovafCp/0bz/qhx1FIUmchpS8+60LqfnNe9Ooak1RQ+zHUvITA9D7bhKqBRJjeZ5tSNZCIFL6EXMvWCIc6tuc3zosa9kVNyb7o/ksu2Rcdpr7cQ1nnb5fnYUrIEYUvlPcKTMktL6HXQl3k5ksqSvTFJHMl+mKCy3OI8jOJDMMMi6q/CJMIQXTcVGsxhqHENuc8N44HQd2AiPD8zYwZzjeTM3/LiMH7
+   eJztmgtvwiAUhe9mspfJ3COZezr20j07//+vG40SCaPlzS3lfsnJrAMLxwOl0gUALBLqlGvGdeZZH4uUnjTw35dHx8/AIqUvlBe92mxccc25rj0/IxdL5Th1Xva49rkm0nsuYwmL1L4cc51wTT3rY0G+6Olqz3vP/4boizo/hJaNmY2l5r2x5aWvr6nzIp8TC1271hDux5jyos4pMeaYUn3R9b19T85LSHZK9aU990ppi/Ch5rzIbVD9iaFSfTnc6gh2a/Y+TSzLCT1Amb7MYHe/K77bPk0ty+nqleTLHHb3u+dcFwZdWpbT1cvli8vat4uUc0uIGGzuu7FQ2zMkf1i6bhtx9cF3LXPDdeugO8CdX1J/58327xPXs0GvXJ9cb1wvMG5fhGx8ab1Yb8ti+NJIr3N48gtl+CKTygt13iJf/MfRN2zm3B8I8yXG9T3HGLL1Rc0O5aV7TGExZF9qyMsHbNYmtvqCOnzxFRbY/VbFlOOYrBzKYvsQMy8u/TYRq/0+95NMOdbt52NhajvG7w5Meo1FSPvXgfVjj6OY5M5CTl9C1oXY/c6RlwPY7XuIvQ8T2P0W6hqTMRDP+Ml7Hyaw/ciRFx9fYmC7zzbJ1B4VLF9s99mmmdqjIp4JlffKcpDDl5hr2RbmUcf1+jb0vGBBvuip2Ze+35Jr9qUPW1/uYVjX79T4PA9TQ44wfMHcK7CltLzEXgt1UZovuajRF5vM1eiLDT7PIarPJBIEMSwacxEiEwzpvLnWYgSBiWvOaW4cDwy7AQmh+ZsYM5RvomT+AHAsw3I=
   </data>
  </layer>
  <objectgroup name="Boxes">
@@ -16,8 +16,8 @@
   <object id="6" x="433" y="498" width="414" height="60"/>
   <object id="7" x="785" y="147" width="62" height="350"/>
   <object id="19" x="846.349" y="654.285" width="388.35" height="291.262"/>
-  <object id="20" x="561.418" y="1298.02" width="314.479" height="443.225"/>
-  <object id="21" x="873.786" y="1519.63" width="194.175" height="221.612"/>
+  <object id="20" x="559.782" y="1295.06" width="318.497" height="449.011"/>
+  <object id="21" x="801.635" y="1519.63" width="269.656" height="223.869"/>
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="17" x="-119.895" y="-91.9845" width="118.695" height="2332.83"/>

@@ -2,6 +2,7 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,18 +22,20 @@ import box2dLight.PointLight;
 
 public class Hero extends Sprite{
     private World world;
-    public Body b2body;
-    public TextureRegion battleCruiser;
-    public float radius = 35;
-    public ArrayList<Bullet> bulletList;
+    private Body b2body;
+    private TextureRegion battleCruiser;
+    private float radius = 35;
+    private ArrayList<Bullet> bulletList;
     private float xDif;
     private float yDif;
-    public ConeLight heroCone;
-    public PointLight pointLight;
+    private ConeLight heroCone;
+    private PointLight pointLight;
+    private Screen screen;
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlas().findRegion("BattleCruiser"));
         this.world = world;
+        this.screen = screen;
         defineHero();
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
         // This is to know where the ship is shooting for the bullet sprite orientation and physics
@@ -50,10 +53,10 @@ public class Hero extends Sprite{
         pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.WHITE, 100/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(b2body);
-        heroCone = new ConeLight(PlayScreen.rayHandler,150, Color.WHITE, 500/NineCircles.PPM, 300/50,300/50, -50, 25);
+        heroCone = new ConeLight(PlayScreen.rayHandler,150, Color.WHITE, 500/NineCircles.PPM, 300/50,300/50, -50, radius*.8f);
         heroCone.setSoftnessLength(0f);
         //one.setContactFilter(short categoryBits, short groupIndex, short maskBits);
-        heroCone.setContactFilter(NineCircles.DEFAULT_BIT, NineCircles.BULLET_BIT,NineCircles.DEFAULT_BIT);
+        heroCone.setContactFilter(NineCircles.DEFAULT_BIT, NineCircles.BULLET_BIT, NineCircles.DEFAULT_BIT);
     }
     public void updateConeLight(){
         heroCone.setDirection(getRotation() + 90);
@@ -80,6 +83,10 @@ public class Hero extends Sprite{
         bulletList.add(new Bullet(world, screen, xPos, yPos, angle, shooterRadius));
     }
 
+    public ArrayList<Bullet> getBulletList(){
+        return bulletList;
+    }
+
     public void defineHero(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(32 / NineCircles.PPM, 32 / NineCircles.PPM);
@@ -94,5 +101,20 @@ public class Hero extends Sprite{
         fdef.shape = shape;
         b2body.createFixture(fdef);
         b2body.createFixture(fdef).setUserData(this);
+    }
+
+    public Body getHeroBody(){
+        return b2body;
+    }
+
+    public float getHeroRadius(){
+        return radius;
+    }
+    public ConeLight getHeroCone(){
+        return heroCone;
+    }
+
+    public PointLight getHeroPoint(){
+        return pointLight;
     }
 }
