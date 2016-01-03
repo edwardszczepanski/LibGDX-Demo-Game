@@ -22,18 +22,22 @@ public class Enemy extends Sprite{
     private int health;
     private boolean destroyed;
     private PointLight pointLight;
+    private float enemyRadius;
 
     private float xDif, yDif;
 
     public Enemy(World world, PlayScreen screen, float startX, float startY){
         super(screen.getAtlas().findRegion("BattleCruiser"));
         this.world = world;
+        enemyRadius = 35;
         defineEnemy(startX, startY);
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
-        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, 50/ NineCircles.PPM,0,0);
+
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, enemyRadius/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(enemyBody);
         health = 30;
+
         destroyed = false;
 
         // Setting bounds of sprite
@@ -51,10 +55,6 @@ public class Enemy extends Sprite{
         yDif = enemyBody.getPosition().y -heroY;
 
         setRotation((float) Math.toDegrees((Math.atan2(xDif * 1, yDif * -1))));
-    }
-
-    public void rotateSprite(float degrees){
-        rotate(degrees);
     }
 
     public int getHealth(){
@@ -79,7 +79,7 @@ public class Enemy extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(35 / NineCircles.PPM);
+        shape.setRadius(enemyRadius / NineCircles.PPM);
 
 
         fdef.shape = shape;

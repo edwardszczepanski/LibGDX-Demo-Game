@@ -90,7 +90,7 @@ public class Bullet extends Sprite{
         fdef.filter.categoryBits = NineCircles.BULLET_BIT;
         fdef.filter.maskBits = NineCircles.DEFAULT_BIT | NineCircles.BRICK_BIT | NineCircles.ENEMY_BIT;
         fdef.shape = shape;
-        fdef.density = .1f;
+        fdef.density = .3f;
         b2body.createFixture(fdef);
 
         b2body.createFixture(fdef).setUserData(this);
@@ -100,6 +100,7 @@ public class Bullet extends Sprite{
         pointLight.setActive(true);
         pointLight.attachToBody(b2body);
     }
+    //Getters and setters
     public float getCreationTime(){
         return creationTime;
     }

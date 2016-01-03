@@ -45,8 +45,8 @@ public class Hud implements Disposable{
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label("WASTE LAND", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("STAGE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("NINE CIRCLES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        worldLabel = new Label("ROUND 1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        marioLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(marioLabel).expandX().padTop(10); // This expand X makes everything in the row share the row equally
         table.add(worldLabel).expandX().padTop(10);

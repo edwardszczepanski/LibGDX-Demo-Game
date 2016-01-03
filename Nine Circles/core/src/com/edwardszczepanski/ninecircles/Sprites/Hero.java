@@ -30,12 +30,10 @@ public class Hero extends Sprite{
     private float yDif;
     private ConeLight heroCone;
     private PointLight pointLight;
-    private Screen screen;
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlas().findRegion("BattleCruiser"));
         this.world = world;
-        this.screen = screen;
         defineHero();
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
         // This is to know where the ship is shooting for the bullet sprite orientation and physics
@@ -73,10 +71,6 @@ public class Hero extends Sprite{
         setRotation((float) Math.toDegrees((Math.atan2(xDif * -1, yDif * -1))));
 
 
-    }
-
-    public void rotateSprite(float degrees){
-        rotate(degrees);
     }
 
     public void heroBullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){

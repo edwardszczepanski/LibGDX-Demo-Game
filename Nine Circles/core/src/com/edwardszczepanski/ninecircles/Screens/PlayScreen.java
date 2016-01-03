@@ -64,7 +64,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, 0), true); // Here are the gravity values. I don't want gravity
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(this);
 
         rayHandler = rayHandlerGenerator();
 
@@ -73,7 +73,6 @@ public class PlayScreen implements Screen {
         enemyList = new ArrayList<Enemy>();
         for(int i = 0; i < 8; ++i){
             enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
-
         }
 
         world.setContactListener(new WorldContactListener());
@@ -90,7 +89,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         // Render Box2DDebugLines
-        b2dr.render(world, gamecam.combined);
+        //b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
         game.batch.setProjectionMatrix(gamecam.combined);
@@ -124,7 +123,6 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 
-
         hud.stage.draw();
     }
 
@@ -138,7 +136,6 @@ public class PlayScreen implements Screen {
         // This updates the hero sprite
         hero.update(delta);
         hero.updateConeLight();
-        //heroCone.setDirection(-180);
 
         if (!enemyList.isEmpty()) {
             for (int i = 0; i < enemyList.size(); ++i){
@@ -183,7 +180,6 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float delta){
-        // You can apply a force or a linearImpulse
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
             hero.getHeroBody().applyForce(new Vector2(0, 4f), hero.getHeroBody().getWorldCenter(), true);
         }
@@ -205,7 +201,6 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new PlayScreen(game));
         }
-
     }
 
     public RayHandler rayHandlerGenerator(){
@@ -219,6 +214,14 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
+    }
+
+    public TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return world;
     }
 
     @Override
@@ -253,5 +256,4 @@ public class PlayScreen implements Screen {
     public void show() {
 
     }
-
 }
