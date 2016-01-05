@@ -54,6 +54,7 @@ public class PlayScreen implements Screen {
         atlas = new TextureAtlas("packers.pack");
         this.game = game;
         gamecam = new OrthographicCamera();
+
         gamePort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
         hud = new Hud(game.batch);
 
@@ -89,7 +90,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         // Render Box2DDebugLines
-        //b2dr.render(world, gamecam.combined);
+        b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
         game.batch.setProjectionMatrix(gamecam.combined);
