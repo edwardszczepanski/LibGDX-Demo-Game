@@ -1,6 +1,8 @@
 package com.edwardszczepanski.ninecircles.Sprites;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +29,7 @@ public class Bullet extends Sprite{
     private boolean destroyed;
     private PointLight pointLight;
     public static final int damage = 10;
+    private Sound fire;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -40,6 +43,10 @@ public class Bullet extends Sprite{
         creationTime = System.nanoTime();
 
         destroyed = false;
+
+        // This is creating the bullet sound
+        fire = Gdx.audio.newSound(Gdx.files.internal("gunshot.mp3"));
+        fire.play();
 
         // This is to correct the angle for placement & physics calculations
         localAngle = angle;
@@ -74,6 +81,7 @@ public class Bullet extends Sprite{
         b2body.setUserData(null);
         b2body = null;
     }
+
 
     public void defineBullet(){
         BodyDef bdef = new BodyDef();

@@ -2,7 +2,7 @@ package com.edwardszczepanski.ninecircles;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.edwardszczepanski.ninecircles.Screens.MenuScreen;
+import com.edwardszczepanski.ninecircles.Screens.SplashScreen;
 
 public class NineCircles extends Game {
     public static final int V_WIDTH = 800;
@@ -22,7 +22,7 @@ public class NineCircles extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		game = this;
-		setScreen(new MenuScreen(game));
+		setScreen(new SplashScreen(game));
 	}
 
 	@Override

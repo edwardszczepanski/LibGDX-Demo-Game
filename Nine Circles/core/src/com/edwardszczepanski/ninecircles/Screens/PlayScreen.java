@@ -182,16 +182,16 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
-            hero.getHeroBody().applyForce(new Vector2(0, 4f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyForce(new Vector2(0, 6f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
-            hero.getHeroBody().applyForce(new Vector2(0, -4f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyForce(new Vector2(0, -6f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
-            hero.getHeroBody().applyForce(new Vector2(4f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyForce(new Vector2(6f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
-            hero.getHeroBody().applyForce(new Vector2(-4f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyForce(new Vector2(-6f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
 
         //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
@@ -200,7 +200,7 @@ public class PlayScreen implements Screen {
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new SplashScreen(game));
         }
     }
 
