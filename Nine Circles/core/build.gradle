@@ -10,4 +10,5 @@ dependencies {
     compile files('build/libs/box2dlights-1.5-SNAPSHOT-sources.jar')
     compile files('build/libs/tween-engine-api.jar')
     compile files('build/libs/tween-engine-api-sources.jar')
+    compile files('build/libs/gdx-freetype.jar')
 }

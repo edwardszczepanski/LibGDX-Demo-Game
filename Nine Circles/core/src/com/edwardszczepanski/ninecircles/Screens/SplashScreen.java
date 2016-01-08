@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Tween.SpriteAccessor;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
 
@@ -24,7 +26,6 @@ public class SplashScreen implements Screen{
     public void handleInput(float delta){
         if (Gdx.input.isTouched()){
             game.setScreen(new PlayScreen(game));
-
         }
     }
 
@@ -34,16 +35,20 @@ public class SplashScreen implements Screen{
 
     @Override
     public void show() {
-
         tweenManager = new TweenManager();
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 
         Texture stamps = new Texture(Gdx.files.internal("stamps.png"));
         splash = new Sprite(stamps);
-        splash.setCenter(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        splash.setCenter(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
         Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
-        Tween.to(splash, SpriteAccessor.ALPHA, 2).target(1).repeatYoyo(1, 2).start(tweenManager);
+        Tween.to(splash, SpriteAccessor.ALPHA, 2).target(1).repeatYoyo(1, 2).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                game.setScreen(new PlayScreen(game));
+            }
+        }).start(tweenManager);
     }
 
     @Override

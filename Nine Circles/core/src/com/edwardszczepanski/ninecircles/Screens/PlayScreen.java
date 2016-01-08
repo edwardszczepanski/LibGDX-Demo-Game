@@ -195,11 +195,11 @@ public class PlayScreen implements Screen {
         }
 
         //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-        if(Gdx.input.justTouched()){
+        if(Gdx.input.justTouched()) {
             hero.heroBullet(world, this, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y, hero.getRotation(), hero.getHeroRadius() / NineCircles.PPM);
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new SplashScreen(game));
         }
     }

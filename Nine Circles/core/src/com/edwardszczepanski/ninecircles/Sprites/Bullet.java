@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -45,7 +46,8 @@ public class Bullet extends Sprite{
         destroyed = false;
 
         // This is creating the bullet sound
-        fire = Gdx.audio.newSound(Gdx.files.internal("gunshot.mp3"));
+        // This sound is made by Marvin and can be found here: http://soundbible.com/2004-Gun-Shot.html
+        fire = Gdx.audio.newSound(Gdx.files.internal("gunshot copy.mp3"));
         fire.play();
 
         // This is to correct the angle for placement & physics calculations
