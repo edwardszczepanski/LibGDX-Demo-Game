@@ -48,6 +48,7 @@ public class Bullet extends Sprite{
         // This is creating the bullet sound
         // This sound is made by Marvin and can be found here: http://soundbible.com/2004-Gun-Shot.html
         fire = Gdx.audio.newSound(Gdx.files.internal("gunshot copy.mp3"));
+        
         fire.play();
 
         // This is to correct the angle for placement & physics calculations
