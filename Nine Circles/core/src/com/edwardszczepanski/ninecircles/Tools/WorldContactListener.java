@@ -24,7 +24,8 @@ public class WorldContactListener implements ContactListener{
 
             if(fixB.getUserData() instanceof Enemy){
                 int localHealth = ((Enemy) fixB.getUserData()).getHealth();
-                ((Enemy) fixB.getUserData()).setHealth(localHealth - 10);
+                ((Enemy) fixB.getUserData()).setHealth(localHealth - Bullet.damage);
+                ((Enemy) fixB.getUserData()).setPointLight();
             }
         }
         if(fixB.getUserData() instanceof Bullet){
@@ -32,7 +33,8 @@ public class WorldContactListener implements ContactListener{
 
             if(fixA.getUserData() instanceof Enemy){
                 int localHealth = ((Enemy) fixA.getUserData()).getHealth();
-                ((Enemy) fixA.getUserData()).setHealth(localHealth - 10);
+                ((Enemy) fixA.getUserData()).setHealth(localHealth - Bullet.damage);
+                ((Enemy) fixA.getUserData()).setPointLight();
             }
         }
 

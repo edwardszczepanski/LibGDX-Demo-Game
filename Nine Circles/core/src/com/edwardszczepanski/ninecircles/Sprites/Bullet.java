@@ -26,6 +26,7 @@ public class Bullet extends Sprite{
     private float creationTime;
     private boolean destroyed;
     private PointLight pointLight;
+    public static final int damage = 10;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -90,7 +91,7 @@ public class Bullet extends Sprite{
         fdef.filter.categoryBits = NineCircles.BULLET_BIT;
         fdef.filter.maskBits = NineCircles.DEFAULT_BIT | NineCircles.BRICK_BIT | NineCircles.ENEMY_BIT;
         fdef.shape = shape;
-        fdef.density = .3f;
+        fdef.density = .8f;
         b2body.createFixture(fdef);
 
         b2body.createFixture(fdef).setUserData(this);

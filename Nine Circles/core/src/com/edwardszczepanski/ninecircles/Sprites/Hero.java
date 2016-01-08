@@ -24,7 +24,7 @@ public class Hero extends Sprite{
     private World world;
     private Body b2body;
     private TextureRegion battleCruiser;
-    private float radius = 35;
+    private static final float radius = 35;
     private ArrayList<Bullet> bulletList;
     private float xDif;
     private float yDif;
@@ -48,7 +48,7 @@ public class Hero extends Sprite{
         defineLights();
     }
     public void defineLights(){
-        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.WHITE, 100/ NineCircles.PPM,0,0);
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.WHITE, 1.5f * radius/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(b2body);
         heroCone = new ConeLight(PlayScreen.rayHandler,150, Color.WHITE, 500/NineCircles.PPM, 300/50,300/50, -50, radius*.8f);

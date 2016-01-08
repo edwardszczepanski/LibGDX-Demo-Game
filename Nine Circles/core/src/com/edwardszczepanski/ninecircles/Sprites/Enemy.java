@@ -23,6 +23,7 @@ public class Enemy extends Sprite{
     private boolean destroyed;
     private PointLight pointLight;
     private float enemyRadius;
+    private static final int startingHealth = 30;
 
     private float xDif, yDif;
 
@@ -36,7 +37,7 @@ public class Enemy extends Sprite{
         pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, enemyRadius/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(enemyBody);
-        health = 30;
+        health = startingHealth;
 
         destroyed = false;
 
@@ -94,4 +95,9 @@ public class Enemy extends Sprite{
         enemyBody.setUserData(null);
         enemyBody = null;
     }
+
+    public void setPointLight(){
+        pointLight.setDistance((int) (enemyRadius) * health / startingHealth / NineCircles.PPM);
+    }
+
 }

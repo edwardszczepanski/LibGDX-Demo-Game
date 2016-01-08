@@ -90,7 +90,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         // Render Box2DDebugLines
-        b2dr.render(world, gamecam.combined);
+        //b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
         game.batch.setProjectionMatrix(gamecam.combined);
@@ -194,13 +194,13 @@ public class PlayScreen implements Screen {
             hero.getHeroBody().applyForce(new Vector2(-4f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
 
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-        //if(Gdx.input.justTouched()){
+        //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        if(Gdx.input.justTouched()){
             hero.heroBullet(world, this, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y, hero.getRotation(), hero.getHeroRadius() / NineCircles.PPM);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new MenuScreen(game));
         }
     }
 

@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.edwardszczepanski.ninecircles.Screens.MenuScreen;
 
 public class NineCircles extends Game {
-    public static final int V_WIDTH = 640;
-    public static final int V_HEIGHT = 480;
+    public static final int V_WIDTH = 800;
+    public static final int V_HEIGHT = 600;
 	public static final float PPM = 50;
 	public static final short DEFAULT_BIT = 1;
 	public static final short HERO_BIT = 2;
@@ -29,4 +29,10 @@ public class NineCircles extends Game {
 	public void render () {
 		super.render();
 	}
+
+	public void dispose () { super.dispose();}
+
+	public void pause () { super.pause();}
+
+	public void resume () { super.resume();}
 }
