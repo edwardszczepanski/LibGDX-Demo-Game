@@ -186,17 +186,19 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, 1f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, hero.getSpeed()), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -1f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -1 * hero.getSpeed()), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(1f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(hero.getSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(-1f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(-1 * hero.getSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
         }
+
+        // This code will stop the player if a key is not pressed
         if(!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)){
             hero.getHeroBody().setLinearVelocity(hero.getHeroBody().getLinearVelocity().x, 0);
         }
@@ -205,7 +207,7 @@ public class PlayScreen implements Screen {
         }
 
         //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() && hero.getHeroBody().getLinearVelocity().x == 0 && hero.getHeroBody().getLinearVelocity().y == 0) {
             hero.heroBullet(world, this, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y, hero.getRotation(), hero.getHeroRadius() / NineCircles.PPM);
         }
 

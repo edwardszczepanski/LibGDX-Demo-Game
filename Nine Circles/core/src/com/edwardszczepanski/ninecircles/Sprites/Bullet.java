@@ -87,7 +87,7 @@ public class Bullet extends Sprite{
 
     public void defineBullet(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(xPos + (1.2f*shooterRadius)*(float)(Math.sin(Math.toRadians(localAngle))), yPos + (1.2f*shooterRadius)*(float)(Math.cos(Math.toRadians(localAngle))));
+        bdef.position.set(xPos + (2.9f*shooterRadius)*(float)(Math.sin(Math.toRadians(localAngle))), yPos + (2.9f*shooterRadius)*(float)(Math.cos(Math.toRadians(localAngle))));
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
