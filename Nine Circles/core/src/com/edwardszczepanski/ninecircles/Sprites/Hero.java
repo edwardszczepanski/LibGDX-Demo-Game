@@ -4,6 +4,8 @@ package com.edwardszczepanski.ninecircles.Sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,10 +13,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.edwardszczepanski.ninecircles.NineCircles;
 import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 
 import java.util.ArrayList;
+
+import javax.xml.soap.Text;
 
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
@@ -32,19 +37,39 @@ public class Hero extends Sprite{
     private float yDif;
     private ConeLight heroCone;
     private PointLight pointLight;
+    private Animation playerRun;
+    private TextureRegion player;
 
     public Hero(World world, PlayScreen screen){
-        super(screen.getAtlas().findRegion("BattleCruiser"));
+        //super(screen.getAtlas().findRegion("BattleCruiser"));
+        super(screen.getAtlasTwo().findRegion("player"));
+
         this.world = world;
         defineHero();
-        battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
-        // This is to know where the ship is shooting for the bullet sprite orientation and physics
+
+
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        frames.add(new TextureRegion(getTexture(), 1,1,79,127));
+
+
+        player = new TextureRegion(getTexture(), 1, 1, 79, 127);
+
+        //public TextureRegion (Texture texture, int x, int y, int width, int height) {
+
+        //battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
+
+
+
+        currentState = State.STANDING;
+
+
 
         bulletList = new ArrayList<Bullet>();
 
         // Setting bounds of sprite
-        setBounds(0, 0, 78 / NineCircles.PPM, 69 / NineCircles.PPM);
-        setRegion(battleCruiser);
+        setBounds(0, 0, 79 / NineCircles.PPM, 127 / NineCircles.PPM);
+        //x, y, width, height
+        setRegion(player);
         // This is so it will rotate around the center of the sprite
         setOrigin(getWidth() / 2,getWidth() / 2);
         defineLights();
@@ -55,7 +80,6 @@ public class Hero extends Sprite{
         pointLight.attachToBody(b2body);
         heroCone = new ConeLight(PlayScreen.rayHandler,150, Color.WHITE, 500/NineCircles.PPM, 300/50,300/50, -50, radius*.8f);
         heroCone.setSoftnessLength(0f);
-        //one.setContactFilter(short categoryBits, short groupIndex, short maskBits);
         heroCone.setContactFilter(NineCircles.DEFAULT_BIT, NineCircles.BULLET_BIT, NineCircles.DEFAULT_BIT);
     }
     public void updateConeLight(){
@@ -71,8 +95,6 @@ public class Hero extends Sprite{
         xDif = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 ;
         yDif = Gdx.input.getY() - Gdx.graphics.getHeight() / 2;
         setRotation((float) Math.toDegrees((Math.atan2(xDif * -1, yDif * -1))));
-
-
     }
 
     public void heroBullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
@@ -85,7 +107,7 @@ public class Hero extends Sprite{
 
     public void defineHero(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / NineCircles.PPM, 32 / NineCircles.PPM);
+        bdef.position.set(20 / NineCircles.PPM, 120 / NineCircles.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -98,6 +120,8 @@ public class Hero extends Sprite{
         b2body.createFixture(fdef);
         b2body.createFixture(fdef).setUserData(this);
     }
+
+
 
     public Body getHeroBody(){
         return b2body;

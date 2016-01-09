@@ -32,6 +32,7 @@ public class PlayScreen implements Screen {
     private Viewport gamePort;
     private Hud hud;
     private TextureAtlas atlas;
+    private TextureAtlas atlasTwo;
 
     // Lighting
     public static RayHandler rayHandler;
@@ -52,6 +53,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(NineCircles game){
         atlas = new TextureAtlas("packers.pack");
+        atlasTwo = new TextureAtlas("man.pack");
         this.game = game;
         gamecam = new OrthographicCamera();
 
@@ -90,7 +92,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         // Render Box2DDebugLines
-        //b2dr.render(world, gamecam.combined);
+        b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
         game.batch.setProjectionMatrix(gamecam.combined);
@@ -180,18 +182,20 @@ public class PlayScreen implements Screen {
         return atlas;
     }
 
+    public TextureAtlas getAtlasTwo() { return atlasTwo;}
+
     public void handleInput(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, 2f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, 1f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -2f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -1f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(2f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(1f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(-2f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(-1f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
         if(!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)){
             hero.getHeroBody().setLinearVelocity(hero.getHeroBody().getLinearVelocity().x, 0);
