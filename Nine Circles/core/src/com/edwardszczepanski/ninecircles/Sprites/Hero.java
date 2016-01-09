@@ -2,6 +2,8 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,6 +42,7 @@ public class Hero extends Sprite{
     private float stateTimer;
     private float lastShotTime;
     private float playerSpeed;
+    public Music running;
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlasTwo().findRegion("player"));
@@ -65,8 +68,12 @@ public class Hero extends Sprite{
 
         bulletList = new ArrayList<Bullet>();
         lastShotTime = 0;
-
         playerSpeed = 1.0f;
+
+        running = Gdx.audio.newMusic(Gdx.files.internal("running.mp3"));
+        running.setLooping(true);
+
+
         // Setting bounds of sprite x, y, width, height
         setBounds(1, 1, 79 / NineCircles.PPM, (127 - 45) / NineCircles.PPM);
         setRegion(playerStanding);
