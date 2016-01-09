@@ -21,6 +21,8 @@ import box2dLight.PointLight;
 
 
 public class Hero extends Sprite{
+    public enum State { RUNNING, STANDING, SHOOTING, RUNANDSHOOT};
+    public State currentState;
     private World world;
     private Body b2body;
     private TextureRegion battleCruiser;

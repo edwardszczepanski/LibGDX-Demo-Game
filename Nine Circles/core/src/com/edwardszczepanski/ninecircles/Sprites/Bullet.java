@@ -48,7 +48,7 @@ public class Bullet extends Sprite{
         // This is creating the bullet sound
         // This sound is made by Marvin and can be found here: http://soundbible.com/2004-Gun-Shot.html
         fire = Gdx.audio.newSound(Gdx.files.internal("gunshot copy.mp3"));
-        
+
         fire.play();
 
         // This is to correct the angle for placement & physics calculations
@@ -85,13 +85,11 @@ public class Bullet extends Sprite{
         b2body = null;
     }
 
-
     public void defineBullet(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(xPos + (1.2f*shooterRadius)*(float)(Math.sin(Math.toRadians(localAngle))), yPos + (1.2f*shooterRadius)*(float)(Math.cos(Math.toRadians(localAngle))));
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
-
 
         // This is the same math as before. It simply takes the corrected angle and uses it to scale and x and y vectors
         b2body.applyLinearImpulse(15*(float)(Math.sin(Math.toRadians(localAngle))),15*(float)(Math.cos(Math.toRadians(localAngle))),0,0,true);

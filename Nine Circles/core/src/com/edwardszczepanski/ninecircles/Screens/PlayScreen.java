@@ -182,20 +182,26 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
-            hero.getHeroBody().applyForce(new Vector2(0, 6f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, 2f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
-            hero.getHeroBody().applyForce(new Vector2(0, -6f), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -2f), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
-            hero.getHeroBody().applyForce(new Vector2(6f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(2f, 0), hero.getHeroBody().getWorldCenter(), true);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
-            hero.getHeroBody().applyForce(new Vector2(-6f, 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().applyLinearImpulse(new Vector2(-2f, 0), hero.getHeroBody().getWorldCenter(), true);
+        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)){
+            hero.getHeroBody().setLinearVelocity(hero.getHeroBody().getLinearVelocity().x, 0);
+        }
+        if(!Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D)){
+            hero.getHeroBody().setLinearVelocity(0, hero.getHeroBody().getLinearVelocity().y);
         }
 
         //if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-        if(Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched()) {
             hero.heroBullet(world, this, hero.getHeroBody().getPosition().x, hero.getHeroBody().getPosition().y, hero.getRotation(), hero.getHeroRadius() / NineCircles.PPM);
         }
 
