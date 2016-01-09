@@ -43,6 +43,7 @@ public class Hero extends Sprite{
     private float walkingSpeed;
     private float runningSpeed;
     public Music running;
+    public Music walking;
 
     public Hero(World world, PlayScreen screen){
         super(screen.getAtlasTwo().findRegion("player"));
@@ -75,10 +76,14 @@ public class Hero extends Sprite{
         lastShotTime = 0;
         walkingSpeed = 2.0f;
         runningSpeed = 3.5f;
-
+        // Sound came from https://www.freesound.org/people/bulbastre/packs/6614/
         running = Gdx.audio.newMusic(Gdx.files.internal("running.mp3"));
-        running.setVolume(1.2f);
+        running.setVolume(2f);
         running.setLooping(true);
+        // Sound came from http://soundbible.com/1432-Walking-On-Gravel.html
+        walking = Gdx.audio.newMusic(Gdx.files.internal("gravel.mp3"));
+        walking.setVolume(0.8f);
+        walking.setLooping(true);
 
 
         // Setting bounds of sprite x, y, width, height
@@ -93,7 +98,7 @@ public class Hero extends Sprite{
         if(b2body.getLinearVelocity().x == runningSpeed || b2body.getLinearVelocity().y == runningSpeed || b2body.getLinearVelocity().x == -1 * runningSpeed || b2body.getLinearVelocity().y == -1 * runningSpeed){
             return State.RUNNING;
         }
-        else if (System.nanoTime() - lastShotTime < 5 * 100000000.0){
+        else if (System.nanoTime() - lastShotTime < 8 * 100000000.0){
             return State.SHOOTING;
         }
         else if(b2body.getLinearVelocity().x == walkingSpeed || b2body.getLinearVelocity().y == walkingSpeed || b2body.getLinearVelocity().x == -1 * walkingSpeed || b2body.getLinearVelocity().y == -1 * walkingSpeed){

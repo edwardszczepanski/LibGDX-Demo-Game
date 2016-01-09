@@ -185,18 +185,28 @@ public class PlayScreen implements Screen {
     public TextureAtlas getAtlasTwo() { return atlasTwo;}
 
     public void handleInput(float delta){
-        float localSpeed;
+        float localSpeed = 0;
 
         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             localSpeed = hero.getRunningSpeed();
             if (hero.getHeroBody().getLinearVelocity().x != 0 || hero.getHeroBody().getLinearVelocity().y != 0){
+                hero.walking.pause();
                 hero.running.play();
             }
         }
         else{
-            hero.running.pause();
             localSpeed = hero.getWalkingSpeed();
+            hero.running.pause();
+            if (hero.getHeroBody().getLinearVelocity().x != 0 || hero.getHeroBody().getLinearVelocity().y != 0){
+                hero.walking.play();
+            }
+            else{
+                hero.walking.pause();
+            }
+
         }
+
+
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
             //hero.getHeroBody().applyLinearImpulse(new Vector2(0, hero.getWalkingSpeed()), hero.getHeroBody().getWorldCenter(), true);
