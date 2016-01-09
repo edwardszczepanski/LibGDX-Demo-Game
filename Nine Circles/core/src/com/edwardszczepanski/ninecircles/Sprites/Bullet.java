@@ -2,6 +2,7 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -30,7 +31,7 @@ public class Bullet extends Sprite{
     private boolean destroyed;
     private PointLight pointLight;
     public static final int damage = 10;
-    private Sound fire;
+    private Music fire;
 
     public Bullet(World world, PlayScreen screen, float xPos, float yPos, float angle, float shooterRadius){
         super(screen.getAtlas().findRegion("BlueBall"));
@@ -47,8 +48,8 @@ public class Bullet extends Sprite{
 
         // This is creating the bullet sound
         // This sound is made by Marvin and can be found here: http://soundbible.com/2004-Gun-Shot.html
-        fire = Gdx.audio.newSound(Gdx.files.internal("gunshot copy.mp3"));
-
+        fire = Gdx.audio.newMusic(Gdx.files.internal("gunshot copy.mp3"));
+        fire.setVolume(0.8f);
         fire.play();
 
         // This is to correct the angle for placement & physics calculations

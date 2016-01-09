@@ -3,7 +3,6 @@ package com.edwardszczepanski.ninecircles.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,12 +23,11 @@ import box2dLight.PointLight;
 
 
 public class Hero extends Sprite{
-    public enum State { RUNNING, STANDING, SHOOTING};
+    public enum State { RUNNING, STANDING, SHOOTING, WALKING};
     public State currentState;
     public State previousState;
     private World world;
     private Body b2body;
-    private TextureRegion battleCruiser;
     private static final float radius = 15;
     private ArrayList<Bullet> bulletList;
     private float xDif;
@@ -37,11 +35,13 @@ public class Hero extends Sprite{
     private ConeLight heroCone;
     private PointLight pointLight;
     private Animation playerRun;
+    private Animation playerWalk;
     private TextureRegion playerStanding;
     private TextureRegion playerShooting;
     private float stateTimer;
     private float lastShotTime;
-    private float playerSpeed;
+    private float walkingSpeed;
+    private float runningSpeed;
     public Music running;
 
     public Hero(World world, PlayScreen screen){
@@ -57,6 +57,11 @@ public class Hero extends Sprite{
         }
         playerRun = new Animation(0.1f, frames);
         frames.clear();
+        for(int i = 1; i < 5; ++i){
+            frames.add(new TextureRegion(getTexture(), 1 + i * 79, 1, 79, 127));
+            frames.add(new TextureRegion(getTexture(), 1 + i * 79, 1, 79, 127));
+        }
+        playerWalk = new Animation(0.1f, frames);
 
         playerShooting = new TextureRegion(getTexture(), 1 + 6 * 79, 1, 79, 127);
 
@@ -68,9 +73,11 @@ public class Hero extends Sprite{
 
         bulletList = new ArrayList<Bullet>();
         lastShotTime = 0;
-        playerSpeed = 1.0f;
+        walkingSpeed = 2.0f;
+        runningSpeed = 3.5f;
 
         running = Gdx.audio.newMusic(Gdx.files.internal("running.mp3"));
+        running.setVolume(1.2f);
         running.setLooping(true);
 
 
@@ -83,11 +90,14 @@ public class Hero extends Sprite{
     }
 
     public State getState(){
-        if (b2body.getLinearVelocity().x != 0 || b2body.getLinearVelocity().y != 0){
+        if(b2body.getLinearVelocity().x == runningSpeed || b2body.getLinearVelocity().y == runningSpeed || b2body.getLinearVelocity().x == -1 * runningSpeed || b2body.getLinearVelocity().y == -1 * runningSpeed){
             return State.RUNNING;
         }
         else if (System.nanoTime() - lastShotTime < 5 * 100000000.0){
             return State.SHOOTING;
+        }
+        else if(b2body.getLinearVelocity().x == walkingSpeed || b2body.getLinearVelocity().y == walkingSpeed || b2body.getLinearVelocity().x == -1 * walkingSpeed || b2body.getLinearVelocity().y == -1 * walkingSpeed){
+            return State.WALKING;
         }
         else {
             return State.STANDING;
@@ -104,6 +114,9 @@ public class Hero extends Sprite{
                 break;
             case SHOOTING:
                 region = playerShooting;
+                break;
+            case WALKING:
+                region = playerWalk.getKeyFrame(stateTimer, true);
                 break;
             case STANDING:
                 region = playerStanding;
@@ -184,7 +197,11 @@ public class Hero extends Sprite{
         return pointLight;
     }
 
-    public float getSpeed(){
-        return playerSpeed;
+    public float getWalkingSpeed(){
+        return walkingSpeed;
+    }
+
+    public float getRunningSpeed(){
+        return runningSpeed;
     }
 }

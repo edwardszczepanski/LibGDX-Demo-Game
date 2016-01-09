@@ -185,25 +185,34 @@ public class PlayScreen implements Screen {
     public TextureAtlas getAtlasTwo() { return atlasTwo;}
 
     public void handleInput(float delta){
+        float localSpeed;
+
         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-            hero.running.play();
+            localSpeed = hero.getRunningSpeed();
+            if (hero.getHeroBody().getLinearVelocity().x != 0 || hero.getHeroBody().getLinearVelocity().y != 0){
+                hero.running.play();
+            }
         }
         else{
             hero.running.pause();
+            localSpeed = hero.getWalkingSpeed();
         }
-
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, hero.getSpeed()), hero.getHeroBody().getWorldCenter(), true);
+            //hero.getHeroBody().applyLinearImpulse(new Vector2(0, hero.getWalkingSpeed()), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().setLinearVelocity(hero.getHeroBody().getLinearVelocity().x, localSpeed);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S) && hero.getHeroBody().getLinearVelocity().y >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(0, -1 * hero.getSpeed()), hero.getHeroBody().getWorldCenter(), true);
+            //hero.getHeroBody().applyLinearImpulse(new Vector2(0, -1 * hero.getWalkingSpeed()), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().setLinearVelocity(hero.getHeroBody().getLinearVelocity().x, -1 * localSpeed);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) && hero.getHeroBody().getLinearVelocity().x <= 5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(hero.getSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
+            //hero.getHeroBody().applyLinearImpulse(new Vector2(hero.getWalkingSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().setLinearVelocity(localSpeed, hero.getHeroBody().getLinearVelocity().y);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) && hero.getHeroBody().getLinearVelocity().x >= -5){
-            hero.getHeroBody().applyLinearImpulse(new Vector2(-1 * hero.getSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
+            //hero.getHeroBody().applyLinearImpulse(new Vector2(-1 * hero.getWalkingSpeed(), 0), hero.getHeroBody().getWorldCenter(), true);
+            hero.getHeroBody().setLinearVelocity(-1 * localSpeed, hero.getHeroBody().getLinearVelocity().y);
         }
 
         // This code will stop the player if a key is not pressed
