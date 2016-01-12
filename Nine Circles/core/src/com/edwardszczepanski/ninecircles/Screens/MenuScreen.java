@@ -23,9 +23,10 @@ public class MenuScreen implements Screen{
     private TextButton butonPlay, buttonExit;
     private Label heading;
     private Skin skin;
-    FreeTypeFontGenerator generator;
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    BitmapFont font12;
+    private BitmapFont white, black;
+    private TextureAtlas atlas;
+
+
 
     public MenuScreen(NineCircles game){
         this.game = game;
@@ -43,9 +44,23 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("BEBAS.ttf"));
-        parameter.size = 12;
-        font12 = generator.generateFont(parameter);
+        stage = new Stage();
+
+        atlas = new TextureAtlas("font/button.pack");
+        skin = new Skin(atlas);
+        table = new Table(skin);
+        table.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("button.up");
+        textButtonStyle.down = skin.getDrawable("button.down");
+
+        buttonExit = new TextButton("EXIT", textButtonStyle);
+
+
+        white = new BitmapFont(Gdx.files.internal("font/white32.fnt"), false);
+        black = new BitmapFont(Gdx.files.internal("font/black32.fnt"), false);
+
+
     }
 
     @Override
@@ -54,7 +69,7 @@ public class MenuScreen implements Screen{
         Gdx.gl.glClearColor(0, 1, 1, 1); // Color then opacity
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        font12.draw(game.batch, "Ayy fuccboi", 100, 100);
+
         game.batch.end();
     }
 
@@ -80,6 +95,6 @@ public class MenuScreen implements Screen{
 
     @Override
     public void dispose() {
-        generator.dispose();
+
     }
 }
