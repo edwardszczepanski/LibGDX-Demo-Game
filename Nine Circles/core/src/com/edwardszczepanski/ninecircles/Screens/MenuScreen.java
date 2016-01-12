@@ -46,19 +46,28 @@ public class MenuScreen implements Screen{
     public void show() {
         stage = new Stage();
 
-        atlas = new TextureAtlas("font/button.pack");
+        atlas = new TextureAtlas("font/atlas.pack");
         skin = new Skin(atlas);
         table = new Table(skin);
         table.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.getDrawable("button.up");
-        textButtonStyle.down = skin.getDrawable("button.down");
-
-        buttonExit = new TextButton("EXIT", textButtonStyle);
-
 
         white = new BitmapFont(Gdx.files.internal("font/white32.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("font/black32.fnt"), false);
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("button.up");
+        textButtonStyle.down = skin.getDrawable("button.down");
+        textButtonStyle.pressedOffsetX = 1;
+        textButtonStyle.pressedOffsetY = -1;
+        textButtonStyle.font = black;
+        buttonExit = new TextButton("EXIT", textButtonStyle);
+        buttonExit.pad(20);
+        table.add(buttonExit);
+        table.debug(); // This enables all the debug lines
+        stage.addActor(table);
+
+
+
 
 
     }
@@ -68,9 +77,10 @@ public class MenuScreen implements Screen{
         update(delta);
         Gdx.gl.glClearColor(0, 1, 1, 1); // Color then opacity
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-
-        game.batch.end();
+        //game.batch.begin();
+        //game.batch.end();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

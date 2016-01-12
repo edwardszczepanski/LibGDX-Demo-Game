@@ -25,7 +25,7 @@ public class SplashScreen implements Screen{
 
     public void handleInput(float delta){
         if (Gdx.input.isTouched()){
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new MenuScreen(game));
         }
     }
 
@@ -46,7 +46,7 @@ public class SplashScreen implements Screen{
         Tween.to(splash, SpriteAccessor.ALPHA, 2).target(1).repeatYoyo(1, 1.5f).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new MenuScreen(game));
             }
         }).start(tweenManager);
     }
