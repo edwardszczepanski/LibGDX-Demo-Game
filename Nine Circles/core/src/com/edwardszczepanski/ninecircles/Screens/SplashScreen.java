@@ -30,6 +30,8 @@ public class SplashScreen implements Screen{
     }
 
     public void update(float delta){
+
+        splash.setCenter(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         handleInput(delta);
     }
 

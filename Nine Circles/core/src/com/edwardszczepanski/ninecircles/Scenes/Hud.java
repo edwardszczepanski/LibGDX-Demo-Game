@@ -1,6 +1,7 @@
 package com.edwardszczepanski.ninecircles.Scenes;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,18 +17,17 @@ import com.edwardszczepanski.ninecircles.NineCircles;
 public class Hud implements Disposable{
     public Stage stage;
     private Viewport viewport;
-
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
     // Now we create our widgets. Our widgets will be labels, essentially text, that allow us to display Game Information
-
-    Label countdownLabel;
+    private Label countdownLabel;
     static Label scoreLabel;
-    Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
-    Label marioLabel;
+    private Label timeLabel;
+    private Label levelLabel;
+    private Label worldLabel;
+    private Label marioLabel;
+    private BitmapFont white;
 
     public Hud(SpriteBatch sb){
         worldTimer = 300;
@@ -41,12 +41,16 @@ public class Hud implements Disposable{
         table.top(); // Will put it at the top of our stage
         table.setFillParent(true);
 
-        countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("WASTE LAND", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("ROUND 1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        white = new BitmapFont(Gdx.files.internal("font/white16.fnt"), false);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(white, Color.WHITE);
+
+        countdownLabel = new Label(String.format("%03d", worldTimer), labelStyle);
+        scoreLabel = new Label(String.format("%06d", score), labelStyle);
+        timeLabel = new Label("TIME", labelStyle);
+        levelLabel = new Label("WASTE LAND", labelStyle);
+        worldLabel = new Label("ROUND 1", labelStyle);
+        marioLabel = new Label("SCORE:", labelStyle);
 
         table.add(marioLabel).expandX().padTop(10); // This expand X makes everything in the row share the row equally
         table.add(worldLabel).expandX().padTop(10);
