@@ -7,11 +7,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
 
 /**
@@ -21,11 +27,12 @@ public class MenuScreen implements Screen{
     private NineCircles game;
     private Stage stage;
     private Table table;
-    private TextButton butonPlay, buttonExit;
+    private TextButton buttonPlay, buttonExit;
     private Label heading;
     private Skin skin;
     private BitmapFont white, black;
     private TextureAtlas atlas;
+    private TextButton test;
 
 
 
@@ -34,9 +41,7 @@ public class MenuScreen implements Screen{
     }
 
     public void handleInput(float delta){
-        if (Gdx.input.isTouched()){
-            game.setScreen(new PlayScreen(game));
-        }
+
     }
 
     public void update(float delta){
@@ -46,9 +51,11 @@ public class MenuScreen implements Screen{
     @Override
     public void show() {
         stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
 
         atlas = new TextureAtlas("font/atlas.pack");
-        skin = new Skin(atlas);
+        //skin = new Skin(atlas);
+        skin = new Skin(Gdx.files.internal("font/menuSkin.json"), new TextureAtlas("font/atlas.pack"));
         table = new Table(skin);
         table.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -63,16 +70,38 @@ public class MenuScreen implements Screen{
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
         textButtonStyle.font = black;
+
         buttonExit = new TextButton("EXIT", textButtonStyle);
+        buttonExit.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+
         buttonExit.pad(20);
 
+
+        buttonPlay = new TextButton("PLAY", textButtonStyle);
+        buttonPlay.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PlayScreen(game));
+            }
+        });
+        buttonPlay.pad(20);
+
+
         // Creating heading
-        Label.LabelStyle headingStyle = new Label.LabelStyle(white, Color.WHITE);
-        heading = new Label("Tale of Nine Circles", headingStyle);
+
+        heading = new Label("Nine Circles", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("font/white64.fnt"), false), Color.WHITE));
 
 
         // Assembling
         table.add(heading);
+        table.getCell(heading).spaceBottom(100);
+        table.row();
+        table.add(buttonPlay);
+        table.getCell(buttonPlay).spaceBottom(15);
         table.row();
         table.add(buttonExit);
         table.debug(); // This enables all the debug lines
@@ -99,7 +128,8 @@ public class MenuScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
-
+        //Viewport menuPort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM);
+        //stage.setViewport(menuPort);
     }
 
     @Override
@@ -122,3 +152,5 @@ public class MenuScreen implements Screen{
 
     }
 }
+
+

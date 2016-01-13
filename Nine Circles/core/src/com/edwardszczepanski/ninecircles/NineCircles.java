@@ -2,6 +2,7 @@ package com.edwardszczepanski.ninecircles;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 import com.edwardszczepanski.ninecircles.Screens.SplashScreen;
 
 public class NineCircles extends Game {
