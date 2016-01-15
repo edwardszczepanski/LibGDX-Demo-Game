@@ -50,19 +50,21 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
-
     public PlayScreen(NineCircles game){
         atlas = new TextureAtlas("packers.pack");
         atlasTwo = new TextureAtlas("man.pack");
         this.game = game;
         gamecam = new OrthographicCamera();
 
-        gamePort = new FitViewport(Gdx.graphics.getWidth() / NineCircles.PPM, Gdx.graphics.getHeight() / NineCircles.PPM, gamecam);
+        gamePort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();
         map = maploader.load("desert2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / NineCircles.PPM); // This can take in a second value which is scale
+
+        // This will eventually be overwritten by Player location
+        gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         world = new World(new Vector2(0, 0), true); // Here are the gravity values. I don't want gravity
         b2dr = new Box2DDebugRenderer();
@@ -112,7 +114,7 @@ public class PlayScreen implements Screen {
             }
         }
 
-        hero.draw(game.batch); // Here is the actual Battle Cruiser being drawn
+        hero.draw(game.batch); // Here is the actual sprite being drawn
 
         game.batch.end();
 
@@ -133,7 +135,7 @@ public class PlayScreen implements Screen {
         handleInput(delta);
 
         // This is how many times you want calculations done
-        world.step(1 / 60f, 6, 2);
+
 
         // This updates the hero sprite
         hero.update(delta);
@@ -169,6 +171,7 @@ public class PlayScreen implements Screen {
 
         hud.update(delta);
 
+        world.step(1 / 60f, 6, 2);
         gamecam.position.x = hero.getHeroBody().getPosition().x;
         gamecam.position.y = hero.getHeroBody().getPosition().y;
 
@@ -202,7 +205,6 @@ public class PlayScreen implements Screen {
             else{
                 hero.walking.pause();
             }
-
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) && hero.getHeroBody().getLinearVelocity().y <= 5){
@@ -246,11 +248,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        gamePort.update(width / NineCircles.V_WIDTH, height / NineCircles.V_WIDTH);
-        gamecam.update();
-        renderer.setView(gamecam);
-        //hud.stage.setViewport(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()));
-
+        gamePort.update(width, height);
     }
 
     public TiledMap getMap() {

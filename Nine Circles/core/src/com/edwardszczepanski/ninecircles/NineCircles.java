@@ -22,14 +22,15 @@ public class NineCircles extends Game {
 	
 	@Override
 	public void create () {
-		Gdx.graphics.setDisplayMode(
+		/*Gdx.graphics.setDisplayMode(
 				Gdx.graphics.getDesktopDisplayMode().width,
 				Gdx.graphics.getDesktopDisplayMode().height,
 				true
 		);
+		*/
 		batch = new SpriteBatch();
 		game = this;
-		setScreen(new SplashScreen(game));
+		setScreen(new PlayScreen(game));
 	}
 
 	@Override
