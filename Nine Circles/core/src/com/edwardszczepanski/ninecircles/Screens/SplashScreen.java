@@ -49,7 +49,7 @@ public class SplashScreen implements Screen{
         Tween.to(splash, SpriteAccessor.ALPHA, 2).target(1).repeatYoyo(1, 1.5f).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new PlayScreen(game));
             }
         }).start(tweenManager);
 

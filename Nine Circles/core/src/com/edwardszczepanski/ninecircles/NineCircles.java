@@ -7,7 +7,7 @@ import com.edwardszczepanski.ninecircles.Screens.SplashScreen;
 
 public class NineCircles extends Game {
     public static final int V_WIDTH = 800;
-    public static final int V_HEIGHT = 600;
+    public static final int V_HEIGHT = 500;
 	public static final float PPM = 50;
 	public static final short DEFAULT_BIT = 1;
 	public static final short HERO_BIT = 2;

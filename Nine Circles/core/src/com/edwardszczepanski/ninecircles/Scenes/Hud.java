@@ -16,7 +16,8 @@ import com.edwardszczepanski.ninecircles.NineCircles;
 
 public class Hud implements Disposable{
     public Stage stage;
-    private Viewport viewport;
+    public Viewport viewport;
+    public Table table;
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
@@ -37,7 +38,7 @@ public class Hud implements Disposable{
         viewport = new FitViewport(NineCircles.V_WIDTH, NineCircles.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb); // We must create order by creating a table in our stage
 
-        Table table = new Table();
+        table = new Table();
         table.top(); // Will put it at the top of our stage
         table.setFillParent(true);
 

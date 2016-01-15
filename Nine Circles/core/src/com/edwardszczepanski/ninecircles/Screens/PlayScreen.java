@@ -94,14 +94,7 @@ public class PlayScreen implements Screen {
         b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
-        //game.batch.setProjectionMatrix(gamecam.combined);
-        game.batch.setTransformMatrix(gamecam.view);
-        game.batch.setProjectionMatrix(gamecam.projection);
-
-        //batch.setTransformMatrix(game.getCamera().view);
-        //batch.setProjectionMatrix(game.getCamera().projection);
-
-
+        game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
 
@@ -132,7 +125,6 @@ public class PlayScreen implements Screen {
         rayHandler.render();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-
         hud.stage.draw();
     }
 
@@ -254,16 +246,10 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
-        gamePort.update(width/50, height/50);
-        gamecam.update();
-        System.out.println("Hey");
-
-
-        //stage.setViewport(gamePort);
+        gamePort.update(width / 50, height / 50);
     }
 
-    public TiledMap getMap(){
+    public TiledMap getMap() {
         return map;
     }
 
@@ -273,6 +259,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        if (hero.getBulletList() != null){
+            for(int i = 0; i < hero.getBulletList().size(); ++i){
+                hero.getBulletList().get(i).disposeSound();
+            }
+        }
         hud.dispose();
         map.dispose();
         renderer.dispose();

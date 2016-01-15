@@ -28,7 +28,6 @@ public class MenuScreen implements Screen{
     private OrthographicCamera gamecam;
     private Viewport gamePort;
 
-
     private NineCircles game;
     private Stage stage;
     private Table table;
@@ -37,8 +36,6 @@ public class MenuScreen implements Screen{
     private Skin skin;
     private BitmapFont white, black;
     private TextureAtlas atlas;
-
-
 
     public MenuScreen(NineCircles game){
         this.game = game;
@@ -56,9 +53,6 @@ public class MenuScreen implements Screen{
     public void show() {
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);
-
-
-
 
         stage = new Stage(gamePort, game.batch);
         Gdx.input.setInputProcessor(stage);
@@ -90,11 +84,12 @@ public class MenuScreen implements Screen{
 
         buttonExit.pad(20);
 
-
         buttonPlay = new TextButton("PLAY", textButtonStyle);
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stage.dispose();
+                Gdx.input.setInputProcessor(stage);
                 game.setScreen(new PlayScreen(game));
             }
         });
@@ -104,7 +99,6 @@ public class MenuScreen implements Screen{
         // Creating heading
 
         heading = new Label("Nine Circles", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("font/white64.fnt"), false), Color.WHITE));
-
 
         // Assembling
         table.add(heading);
@@ -116,11 +110,6 @@ public class MenuScreen implements Screen{
         table.add(buttonExit);
         table.debug(); // This enables all the debug lines
         stage.addActor(table);
-
-
-
-
-
     }
 
     @Override
@@ -129,19 +118,12 @@ public class MenuScreen implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 1); // Color then opacity
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //game.batch.begin();
-        //game.batch.end();
-
-        //Table.drawDebug(stage);
         stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        //Viewport menuPort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM);
-        //stage.setViewport(menuPort);
-
         gamePort.update(width, height);
         gamecam.update();
 
