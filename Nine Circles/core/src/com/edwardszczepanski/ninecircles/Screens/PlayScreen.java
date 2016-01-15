@@ -246,7 +246,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        gamePort.update(width / 50, height / 50);
+        gamePort.update(width / NineCircles.V_WIDTH, height / NineCircles.V_WIDTH);
+        gamecam.update();
+        renderer.setView(gamecam);
+        //hud.stage.setViewport(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()));
+
     }
 
     public TiledMap getMap() {

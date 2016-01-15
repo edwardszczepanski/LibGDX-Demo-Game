@@ -1,6 +1,7 @@
 package com.edwardszczepanski.ninecircles;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.edwardszczepanski.ninecircles.Screens.PlayScreen;
 import com.edwardszczepanski.ninecircles.Screens.SplashScreen;
@@ -21,6 +22,11 @@ public class NineCircles extends Game {
 	
 	@Override
 	public void create () {
+		Gdx.graphics.setDisplayMode(
+				Gdx.graphics.getDesktopDisplayMode().width,
+				Gdx.graphics.getDesktopDisplayMode().height,
+				true
+		);
 		batch = new SpriteBatch();
 		game = this;
 		setScreen(new SplashScreen(game));

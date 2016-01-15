@@ -35,7 +35,7 @@ public class Hud implements Disposable{
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(NineCircles.V_WIDTH, NineCircles.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport, sb); // We must create order by creating a table in our stage
 
         table = new Table();

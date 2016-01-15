@@ -128,7 +128,6 @@ public class MenuScreen implements Screen{
         gamecam.update();
 
         stage.setViewport(gamePort);
-
         table.invalidateHierarchy();
     }
 
