@@ -37,6 +37,7 @@ public class SplashScreen implements Screen{
 
     @Override
     public void show() {
+
         tweenManager = new TweenManager();
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 
@@ -51,6 +52,7 @@ public class SplashScreen implements Screen{
                 game.setScreen(new MenuScreen(game));
             }
         }).start(tweenManager);
+
     }
 
     @Override
@@ -70,7 +72,7 @@ public class SplashScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
-
+        splash.setCenter(width / 2, height / 2);
     }
 
     @Override
@@ -85,7 +87,6 @@ public class SplashScreen implements Screen{
 
     @Override
     public void hide() {
-
     }
 
     @Override

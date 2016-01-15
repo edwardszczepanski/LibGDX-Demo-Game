@@ -57,7 +57,7 @@ public class PlayScreen implements Screen {
         this.game = game;
         gamecam = new OrthographicCamera();
 
-        gamePort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
+        gamePort = new FitViewport(Gdx.graphics.getWidth() / NineCircles.PPM, Gdx.graphics.getHeight() / NineCircles.PPM, gamecam);
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();
@@ -94,7 +94,15 @@ public class PlayScreen implements Screen {
         b2dr.render(world, gamecam.combined);
 
         // Here is the code to display the sprite
-        game.batch.setProjectionMatrix(gamecam.combined);
+        //game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.setTransformMatrix(gamecam.view);
+        game.batch.setProjectionMatrix(gamecam.projection);
+
+        //batch.setTransformMatrix(game.getCamera().view);
+        //batch.setProjectionMatrix(game.getCamera().projection);
+
+
+
         game.batch.begin();
 
         if(!enemyList.isEmpty()){
@@ -232,7 +240,7 @@ public class PlayScreen implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            game.setScreen(new SplashScreen(game));
+            game.setScreen(new MenuScreen(game));
         }
     }
 
@@ -246,7 +254,13 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        gamePort.update(width, height);
+
+        gamePort.update(width/50, height/50);
+        gamecam.update();
+        System.out.println("Hey");
+
+
+        //stage.setViewport(gamePort);
     }
 
     public TiledMap getMap(){

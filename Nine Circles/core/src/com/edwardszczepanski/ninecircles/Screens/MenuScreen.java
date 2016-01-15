@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -24,6 +25,10 @@ import com.edwardszczepanski.ninecircles.NineCircles;
  * Created by edwardszc on 1/7/16.
  */
 public class MenuScreen implements Screen{
+    private OrthographicCamera gamecam;
+    private Viewport gamePort;
+
+
     private NineCircles game;
     private Stage stage;
     private Table table;
@@ -32,7 +37,6 @@ public class MenuScreen implements Screen{
     private Skin skin;
     private BitmapFont white, black;
     private TextureAtlas atlas;
-    private TextButton test;
 
 
 
@@ -50,7 +54,13 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-        stage = new Stage();
+        gamecam = new OrthographicCamera();
+        gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);
+
+
+
+
+        stage = new Stage(gamePort, game.batch);
         Gdx.input.setInputProcessor(stage);
 
         atlas = new TextureAtlas("font/atlas.pack");
@@ -118,6 +128,7 @@ public class MenuScreen implements Screen{
         update(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1); // Color then opacity
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         //game.batch.begin();
         //game.batch.end();
 
@@ -130,6 +141,13 @@ public class MenuScreen implements Screen{
     public void resize(int width, int height) {
         //Viewport menuPort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM);
         //stage.setViewport(menuPort);
+
+        gamePort.update(width, height);
+        gamecam.update();
+
+        stage.setViewport(gamePort);
+
+        table.invalidateHierarchy();
     }
 
     @Override
