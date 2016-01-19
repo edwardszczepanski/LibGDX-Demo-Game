@@ -38,7 +38,6 @@ public class Enemy extends Sprite{
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(enemyBody);
         health = startingHealth;
-
         destroyed = false;
 
         // Setting bounds of sprite

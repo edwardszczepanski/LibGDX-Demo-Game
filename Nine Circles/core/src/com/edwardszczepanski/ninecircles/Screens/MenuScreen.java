@@ -5,9 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
+import com.edwardszczepanski.ninecircles.Scenes.ParallaxBackground;
+import com.edwardszczepanski.ninecircles.Scenes.ParallaxLayer;
 
 /**
  * Created by edwardszc on 1/7/16.
@@ -36,6 +41,7 @@ public class MenuScreen implements Screen{
     private Skin skin;
     private BitmapFont white, black;
     private TextureAtlas atlas;
+    private ParallaxBackground rbg;
 
     public MenuScreen(NineCircles game){
         this.game = game;
@@ -110,6 +116,12 @@ public class MenuScreen implements Screen{
         table.add(buttonExit);
         table.debug(); // This enables all the debug lines
         stage.addActor(table);
+
+
+        rbg = new ParallaxBackground(new ParallaxLayer[]{
+                new ParallaxLayer(new TextureRegion(new Texture(Gdx.files.internal("blue_grass.png"))),new Vector2(0.5f, 0.5f),new Vector2(0, 300)),
+                //new ParallaxLayer(atlas.findRegion("bg2"),new Vector2(1.0f,1.0f),new Vector2(0, 500)),
+        }, 800, 480,new Vector2(150,0));
     }
 
     @Override
@@ -117,7 +129,7 @@ public class MenuScreen implements Screen{
         update(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1); // Color then opacity
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        rbg.render(delta);
         stage.act(delta);
         stage.draw();
     }

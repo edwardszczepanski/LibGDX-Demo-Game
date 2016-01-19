@@ -30,7 +30,7 @@ public class NineCircles extends Game {
 		*/
 		batch = new SpriteBatch();
 		game = this;
-		setScreen(new PlayScreen(game));
+		setScreen(new SplashScreen(game));
 	}
 
 	@Override

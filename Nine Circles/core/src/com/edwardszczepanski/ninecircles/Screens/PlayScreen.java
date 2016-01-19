@@ -80,6 +80,7 @@ public class PlayScreen implements Screen {
             enemyList.add(new Enemy(world, this, (float) (Math.random()) * 1250 / NineCircles.PPM, (float) (Math.random()) * 1250 / NineCircles.PPM));
         }
 
+
         world.setContactListener(new WorldContactListener());
     }
 
