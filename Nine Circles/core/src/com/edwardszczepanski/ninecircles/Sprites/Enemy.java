@@ -34,7 +34,7 @@ public class Enemy extends Sprite{
         defineEnemy(startX, startY);
         battleCruiser = new TextureRegion(getTexture(), 1, 28, 78, 69);
 
-        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, enemyRadius/ NineCircles.PPM,0,0);
+        pointLight = new PointLight(PlayScreen.rayHandler, 150, Color.RED, 1.2f * enemyRadius/ NineCircles.PPM,0,0);
         pointLight.setSoftnessLength(0f);
         pointLight.attachToBody(enemyBody);
         health = startingHealth;

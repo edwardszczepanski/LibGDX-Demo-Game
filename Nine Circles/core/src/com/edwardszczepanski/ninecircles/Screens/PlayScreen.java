@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
@@ -29,7 +30,7 @@ public class PlayScreen implements Screen {
     private NineCircles game;
 
     private OrthographicCamera gamecam;
-    private Viewport gamePort;
+    private ExtendViewport gamePort;
     private Hud hud;
     private TextureAtlas atlas;
     private TextureAtlas atlasTwo;
@@ -56,7 +57,7 @@ public class PlayScreen implements Screen {
         this.game = game;
         gamecam = new OrthographicCamera();
 
-        gamePort = new FitViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
+        gamePort = new ExtendViewport(NineCircles.V_WIDTH / NineCircles.PPM, NineCircles.V_HEIGHT / NineCircles.PPM, gamecam);
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();

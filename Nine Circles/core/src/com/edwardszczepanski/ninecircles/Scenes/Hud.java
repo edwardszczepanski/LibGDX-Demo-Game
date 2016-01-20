@@ -10,13 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edwardszczepanski.ninecircles.NineCircles;
 
 public class Hud implements Disposable{
     public Stage stage;
-    public Viewport viewport;
+    public ExtendViewport viewport;
     public Table table;
     private Integer worldTimer;
     private float timeCount;
@@ -35,7 +36,7 @@ public class Hud implements Disposable{
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport, sb); // We must create order by creating a table in our stage
 
         table = new Table();
