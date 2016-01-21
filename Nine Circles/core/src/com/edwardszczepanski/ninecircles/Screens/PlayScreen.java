@@ -134,10 +134,13 @@ public class PlayScreen implements Screen {
 
 
     public void update(float delta) {
+        if (hud.getTime() <= 0){
+            // This will reset the game when the game timer hits 0
+            game.setScreen(new PlayScreen(game));
+        }
+
         handleInput(delta);
-
         // This is how many times you want calculations done
-
 
         // This updates the hero sprite
         hero.update(delta);
@@ -243,7 +246,7 @@ public class PlayScreen implements Screen {
     public RayHandler rayHandlerGenerator(){
         RayHandler localRay = new RayHandler(world);
         RayHandler.useDiffuseLight(true);
-        localRay.setAmbientLight(0.1f, 0.1f, 0.1f, 0.2f);
+        localRay.setAmbientLight(0.1f, 0.1f, 0.1f, 0.1f);
         localRay.setShadows(true);
         return localRay;
     }

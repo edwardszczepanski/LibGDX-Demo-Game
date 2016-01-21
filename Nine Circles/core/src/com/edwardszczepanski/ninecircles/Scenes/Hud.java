@@ -32,7 +32,7 @@ public class Hud implements Disposable{
     private BitmapFont white;
 
     public Hud(SpriteBatch sb){
-        worldTimer = 300;
+        worldTimer = 30;
         timeCount = 0;
         score = 0;
 
@@ -80,6 +80,10 @@ public class Hud implements Disposable{
     public static void addScore(int value){
         score += value;
         scoreLabel.setText(String.format("%06d", score));
+    }
+
+    public Integer getTime(){
+        return worldTimer;
     }
 
     @Override
