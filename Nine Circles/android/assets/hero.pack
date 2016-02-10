@@ -1,0 +1,12 @@
+
+hero.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bkspr01
+  rotate: false
+  xy: 1, 1
+  size: 265, 558
+  orig: 265, 558
+  offset: 0, 0
+  index: -1
